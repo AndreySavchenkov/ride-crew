@@ -1,5 +1,5 @@
 import { getUser } from "@/utils/supabase/getUser";
-import { LoginButton } from "./loginButton";
+import { SignInButton } from "./signInButton";
 import { User } from "./user";
 
 export const Header = async () => {
@@ -16,7 +16,7 @@ export const Header = async () => {
         </div>
 
         <div className="flex items-center gap-3">
-          {user ? <User user={user} /> : <LoginButton />}
+          {user ? <User user={user} /> : <SignInButton />}
         </div>
       </div>
     </header>

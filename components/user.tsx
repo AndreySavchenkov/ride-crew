@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogoutButton } from "./logoutButton";
+import { SignOutButton } from "./signOutButton";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
 export const User = ({ user }: { user: SupabaseUser }) => {
@@ -23,7 +23,7 @@ export const User = ({ user }: { user: SupabaseUser }) => {
         </Avatar>
         <span className="text-sm font-medium text-white">{name}</span>
       </div>
-      <LogoutButton />
+      <SignOutButton />
     </div>
   );
 };

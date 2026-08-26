@@ -1,10 +1,10 @@
 "use client";
 import { createClient } from "@/utils/supabase/client";
 
-export const LoginButton = () => {
+export function SignInButton() {
   const supabase = createClient();
 
-  const handleLogin = async () => {
+  const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
@@ -15,7 +15,7 @@ export const LoginButton = () => {
 
   return (
     <button
-      onClick={handleLogin}
+      onClick={handleSignIn}
       className="flex items-center gap-2.5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#0f1013] transition-all hover:bg-white/90 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4F9EFA] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1013]"
     >
       <svg width="18" height="18" viewBox="0 0 18 18">
@@ -36,7 +36,7 @@ export const LoginButton = () => {
           d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.97l2.99 2.34C4.66 5.17 6.65 3.58 9 3.58z"
         />
       </svg>
-      Войти через Google
+      Continue with Google
     </button>
   );
-};
+}
