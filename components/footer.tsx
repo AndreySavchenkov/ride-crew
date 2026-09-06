@@ -12,7 +12,7 @@ export const Footer = () => {
           rel="noopener noreferrer"
           className="text-sm text-white/50 transition-colors hover:text-white"
         >
-         Instagram
+          Instagram
         </a>
       </div>
     </footer>

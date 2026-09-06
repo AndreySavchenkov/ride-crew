@@ -5,7 +5,10 @@ import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
-const oxaniumHeading = Oxanium({ subsets: ["latin"], variable: "--font-heading" });
+const oxaniumHeading = Oxanium({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,9 +29,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, oxaniumHeading.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        oxaniumHeading.variable,
+      )}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-[#0f1013]">
         <Header />
         <main className="flex-1 pt-20">{children}</main>
         <Footer />
