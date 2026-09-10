@@ -1,28 +1,23 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono, Oxanium } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { fontBody, fontDisplay, fontLabel } from "./fonts";
 
-const oxaniumHeading = Oxanium({
-  subsets: ["latin"],
-  variable: "--font-heading",
-});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export const viewport: Viewport = {
+  themeColor: "#0f1013",
+  colorScheme: "dark",
+};
 
 export const metadata: Metadata = {
-  title: "Ride Crew",
+  title: { default: "Ride Crew", template: "%s · Ride Crew" },
   description: "ride with friends",
+  openGraph: {
+    title: "Ride Crew",
+    description: "ride with friends",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -30,16 +25,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={cn(
+        "dark",
         "h-full",
         "antialiased",
-        geistSans.variable,
-        geistMono.variable,
-        oxaniumHeading.variable,
+        fontBody.variable,
+        fontDisplay.variable,
+        fontLabel.variable,
       )}
     >
-      <body className="flex min-h-full flex-col bg-[#0f1013]">
+      <body className="flex min-h-full flex-col">
         <Header />
-        <main className="flex-1 pt-20">{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer />
       </body>
     </html>

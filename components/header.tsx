@@ -7,17 +7,23 @@ export const Header = async () => {
   const user = await getUser();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-[#0f1013]/80 backdrop-blur-md">
+    <header className="sticky top-0 right-0 left-0 z-50 border-b-2 bg-background">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <div className="flex items-center gap-2">
-          <div className="h-7 w-7 rounded-full bg-[#4F9EFA]" />
-          <Link href="/" className="text-white/50 hover:text-white">
-            Ride Crew
+        <div className="flex items-center gap-2.5">
+          <div className="size-4 bg-primary" />
+          <Link
+            href="/"
+            className="font-display text-xs text-foreground hover:text-primary"
+          >
+            RIDE CREW
           </Link>
         </div>
 
         <div>
-          <Link href="/groups" className="text-white/50 hover:text-white">
+          <Link
+            href="/groups"
+            className="font-label text-sm uppercase text-muted-foreground hover:text-foreground"
+          >
             Groups
           </Link>
         </div>

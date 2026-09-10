@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -15,10 +14,10 @@ export function CopyInviteCode({ code }: { code: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 font-mono text-sm text-white transition-colors hover:bg-white/20"
+      className="flex items-center gap-2 border-2 border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:border-primary"
     >
       {code}
-      <span className="text-xs text-white/50">
+      <span className="font-label text-xs uppercase text-muted-foreground">
         {copied ? "Скопировано!" : "Нажми, чтобы скопировать"}
       </span>
     </button>

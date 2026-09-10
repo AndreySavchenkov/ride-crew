@@ -31,14 +31,14 @@ export default async function GroupPage({
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
-      <h1 className="text-2xl font-bold text-white">{group.name}</h1>
+      <h1 className="text-2xl text-foreground">{group.name}</h1>
       {group.description && (
-        <p className="mt-2 text-white/50">{group.description}</p>
+        <p className="mt-2 text-muted-foreground">{group.description}</p>
       )}
 
       {isOwner && (
-        <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
-          <p className="mb-2 text-sm font-medium text-white/70">
+        <div className="mt-6 border-2 border-border bg-card p-4">
+          <p className="mb-2 font-label text-xs uppercase text-muted-foreground">
             Код приглашения
           </p>
           <CopyInviteCode code={group.invite_code} />
@@ -46,16 +46,16 @@ export default async function GroupPage({
       )}
 
       <div className="mt-8">
-        <p className="mb-4 text-sm font-semibold text-white/70">
+        <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
           Участники ({members?.length ?? 0})
         </p>
         <div className="flex flex-col gap-3">
           {members?.map((m: any) => (
             <div
               key={m.profiles.id}
-              className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/5 p-3"
+              className="flex items-center gap-3 border-2 border-border bg-card p-3"
             >
-              <div className="h-9 w-9 shrink-0 overflow-hidden rounded-full bg-[#4F9EFA]">
+              <div className="size-9 shrink-0 overflow-hidden bg-primary">
                 {m.profiles.avatar_url && (
                   <img
                     src={m.profiles.avatar_url}
@@ -64,9 +64,9 @@ export default async function GroupPage({
                   />
                 )}
               </div>
-              <span className="text-white">{m.profiles.full_name}</span>
+              <span className="text-foreground">{m.profiles.full_name}</span>
               {m.role === "owner" && (
-                <span className="ml-auto rounded-full bg-[#4F9EFA]/20 px-2.5 py-0.5 text-xs font-medium text-[#4F9EFA]">
+                <span className="ml-auto border border-primary/40 bg-primary/15 px-2.5 py-0.5 font-label text-xs uppercase text-primary">
                   Владелец
                 </span>
               )}

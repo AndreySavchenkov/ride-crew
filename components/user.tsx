@@ -14,14 +14,16 @@ export const User = ({ user }: { user: SupabaseUser }) => {
 
   return (
     <div className="flex items-center gap-3">
-      <div className="flex items-center gap-2.5 rounded-full bg-white/5 py-1.5 pl-1.5 pr-3.5">
-        <Avatar className="h-7 w-7 border border-white/10">
+      <div className="flex items-center gap-2.5 border-2 border-border bg-card py-1.5 pr-3.5 pl-1.5">
+        <Avatar className="size-7 rounded-none border border-border">
           <AvatarImage src={image} alt={name} />
-          <AvatarFallback className="bg-[#4F9EFA] text-xs font-semibold text-[#0f1013]">
+          <AvatarFallback className="rounded-none bg-primary font-label text-xs text-primary-foreground">
             {fallbackName}
           </AvatarFallback>
         </Avatar>
-        <span className="text-sm font-medium text-white">{name}</span>
+        <span className="font-label text-xs uppercase text-foreground">
+          {name}
+        </span>
       </div>
       <SignOutButton />
     </div>
