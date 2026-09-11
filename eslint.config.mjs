@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Вендоренная копия воркера maplibre-gl (см. components/route-map.tsx) —
+    // сторонний минифицированный код, линтить не нужно.
+    "public/maplibre/**",
   ]),
 ]);
 
