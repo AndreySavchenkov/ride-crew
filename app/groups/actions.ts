@@ -34,7 +34,7 @@ export async function createGroup(formData: FormData) {
 
   if (groupError || !group) {
     console.error("Supabase insert error:", groupError);
-    // throw new Error("Не удалось создать группу. Попробуй ещё раз");
+    throw new Error("Не удалось создать группу. Попробуй ещё раз");
   }
 
   const { error: memberError } = await supabase.from("group_members").insert({
