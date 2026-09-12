@@ -3,16 +3,22 @@ import { getUser } from "@/utils/supabase/getUser";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+type GroupRow = { id: string; name: string; description: string | null };
+
 export default async function GroupsPage() {
   const user = await getUser();
   if (!user) redirect("/login?next=/groups");
 
   const supabase = await createClient();
 
+  // Inner join on group_members scopes this to groups the user actually
+  // belongs to — without it every group in the database was listed here.
   const { data: groups } = await supabase
     .from("groups")
-    .select("id, name, description")
-    .order("created_at", { ascending: false });
+    .select("id, name, description, group_members!inner(user_id)")
+    .eq("group_members.user_id", user.id)
+    .order("created_at", { ascending: false })
+    .returns<GroupRow[]>();
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
