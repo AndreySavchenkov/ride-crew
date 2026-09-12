@@ -22,19 +22,28 @@ export default async function GroupsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-8 flex items-center justify-between gap-3">
         <h1 className="text-2xl text-foreground">Мои группы</h1>
-        <Link
-          href="/groups/new"
-          className="border-2 border-primary bg-primary px-5 py-2.5 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
-        >
-          + Создать группу
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link
+            href="/groups/join"
+            className="border-2 border-border bg-card px-5 py-2.5 font-label text-sm uppercase text-foreground transition-colors hover:border-primary"
+          >
+            Вступить по коду
+          </Link>
+          <Link
+            href="/groups/new"
+            className="border-2 border-primary bg-primary px-5 py-2.5 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
+          >
+            + Создать группу
+          </Link>
+        </div>
       </div>
 
       {!groups?.length ? (
         <p className="text-muted-foreground">
-          Пока нет групп. Создай первую, чтобы начать организовывать покатушки.
+          Пока нет групп. Создай свою или вступи в существующую по коду
+          приглашения.
         </p>
       ) : (
         <div className="flex flex-col gap-3">

@@ -51,3 +51,39 @@ export async function createGroup(formData: FormData) {
   revalidatePath("/groups");
   redirect(`/groups/${group.id}`);
 }
+
+export async function joinGroup(formData: FormData) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const code = (formData.get("code") as string)?.trim();
+
+  if (!user) {
+    const next = code ? `/groups/join?code=${encodeURIComponent(code)}` : "/groups/join";
+    redirect(`/login?next=${encodeURIComponent(next)}`);
+  }
+
+  if (!code) {
+    throw new Error("Введи код приглашения");
+  }
+
+  const { data, error } = await supabase
+    .rpc("join_group_by_invite_code", { p_invite_code: code })
+    .single();
+
+  if (error || !data) {
+    console.error("Supabase rpc error:", error);
+    if (error?.message?.includes("invalid_invite_code")) {
+      throw new Error("Такого кода приглашения не существует. Проверь и попробуй ещё раз");
+    }
+    throw new Error("Не удалось вступить в группу. Попробуй ещё раз");
+  }
+
+  const { group_id } = data as { group_id: string; group_name: string };
+
+  revalidatePath("/groups");
+  redirect(`/groups/${group_id}`);
+}
