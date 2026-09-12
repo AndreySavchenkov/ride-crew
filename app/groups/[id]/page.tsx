@@ -16,7 +16,7 @@ export default async function GroupPage({
 }) {
   const { id } = await params;
   const user = await getUser();
-  if (!user) redirect("/login");
+  if (!user) redirect(`/login?next=/groups/${id}`);
 
   const supabase = await createClient();
 

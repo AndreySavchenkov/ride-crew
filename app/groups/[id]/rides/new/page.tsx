@@ -1,5 +1,7 @@
 import { createRide } from "@/app/rides/actions";
 import { GpxUploadField } from "@/components/gpx-upload-field";
+import { getUser } from "@/utils/supabase/getUser";
+import { redirect } from "next/navigation";
 
 export default async function NewRidePage({
   params,
@@ -7,6 +9,8 @@ export default async function NewRidePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const user = await getUser();
+  if (!user) redirect(`/login?next=/groups/${id}/rides/new`);
 
   return (
     <div className="mx-auto max-w-md px-6 py-12">

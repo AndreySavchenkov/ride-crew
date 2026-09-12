@@ -1,6 +1,11 @@
 import { createGroup } from "@/app/groups/actions";
+import { getUser } from "@/utils/supabase/getUser";
+import { redirect } from "next/navigation";
 
-export default function NewGroupPage() {
+export default async function NewGroupPage() {
+  const user = await getUser();
+  if (!user) redirect("/login?next=/groups/new");
+
   return (
     <div className="mx-auto max-w-md px-6 py-12">
       <h1 className="mb-8 text-2xl text-foreground">Создать группу</h1>

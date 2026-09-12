@@ -26,7 +26,7 @@ export default async function RidePage({
 }) {
   const { id } = await params;
   const user = await getUser();
-  if (!user) redirect("/login");
+  if (!user) redirect(`/login?next=/rides/${id}`);
 
   const supabase = await createClient();
 

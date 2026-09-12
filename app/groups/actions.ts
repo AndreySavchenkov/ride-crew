@@ -12,7 +12,7 @@ export async function createGroup(formData: FormData) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/login?next=/groups/new");
   }
 
   const name = formData.get("name") as string;

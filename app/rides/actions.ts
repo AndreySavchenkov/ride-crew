@@ -11,11 +11,11 @@ export async function createRide(formData: FormData) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    redirect("/login");
-  }
-
   const groupId = formData.get("group_id") as string;
+
+  if (!user) {
+    redirect(`/login?next=/groups/${groupId}/rides/new`);
+  }
   const title = formData.get("title") as string;
   const startsAt = formData.get("starts_at") as string;
   const location = formData.get("location") as string;
@@ -78,7 +78,7 @@ export async function setRsvp(rideId: string, status: "going" | "maybe" | "not_g
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login");
+    redirect(`/login?next=/rides/${rideId}`);
   }
 
   const { error } = await supabase.from("ride_rsvps").upsert({

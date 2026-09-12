@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default async function GroupsPage() {
   const user = await getUser();
-  if (!user) redirect("/login");
+  if (!user) redirect("/login?next=/groups");
 
   const supabase = await createClient();
 
