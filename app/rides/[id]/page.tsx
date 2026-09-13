@@ -4,6 +4,7 @@ import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { RouteMap } from "@/components/route-map";
 import { RideRsvpButtons } from "@/components/ride-rsvp-buttons";
+import { RideOwnerActions } from "@/components/ride-owner-actions";
 
 type RsvpRow = {
   status: "going" | "maybe" | "not_going";
@@ -33,7 +34,7 @@ export default async function RidePage({
   const { data: ride } = await supabase
     .from("rides")
     .select(
-      "id, group_id, title, description, starts_at, location, route_url, route_points, distance_km, elevation_gain_m, groups(name)"
+      "id, group_id, created_by, title, description, starts_at, location, route_url, route_points, distance_km, elevation_gain_m, groups(name)"
     )
     .eq("id", id)
     .single();
@@ -66,7 +67,12 @@ export default async function RidePage({
         </Link>
       )}
 
-      <h1 className="mt-4 text-2xl text-foreground">{ride.title}</h1>
+      <div className="mt-4 flex items-start justify-between gap-4">
+        <h1 className="text-2xl text-foreground">{ride.title}</h1>
+        {ride.created_by === user.id && (
+          <RideOwnerActions rideId={ride.id} groupId={ride.group_id} />
+        )}
+      </div>
       <p className="mt-1 text-muted-foreground">
         {dateFormatter.format(new Date(ride.starts_at))}
         {ride.location && ` · ${ride.location}`}

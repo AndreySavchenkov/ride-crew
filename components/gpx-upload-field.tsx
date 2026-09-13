@@ -4,13 +4,28 @@ import { useState } from "react";
 import { parseGpx } from "@/lib/gpx";
 import { RouteMap } from "@/components/route-map";
 
+type GpxUploadFieldProps = {
+  initialPoints?: [number, number][];
+  initialDistanceKm?: number | null;
+  initialElevationGainM?: number | null;
+};
+
 // Файл читается и парсится прямо в браузере (DOMParser в lib/gpx.ts), а
 // результат кладётся в скрытые поля формы — сам server action (createRide)
 // остаётся обычным FormData-обработчиком, без отдельного API-роута.
-export function GpxUploadField() {
-  const [points, setPoints] = useState<[number, number][]>([]);
-  const [distanceKm, setDistanceKm] = useState<number | null>(null);
-  const [elevationGainM, setElevationGainM] = useState<number | null>(null);
+//
+// `initial*` пропсы — для формы редактирования: показывают уже сохранённый
+// маршрут, пока юзер не загрузит новый GPX-файл ему на замену.
+export function GpxUploadField({
+  initialPoints = [],
+  initialDistanceKm = null,
+  initialElevationGainM = null,
+}: GpxUploadFieldProps) {
+  const [points, setPoints] = useState<[number, number][]>(initialPoints);
+  const [distanceKm, setDistanceKm] = useState<number | null>(initialDistanceKm);
+  const [elevationGainM, setElevationGainM] = useState<number | null>(
+    initialElevationGainM
+  );
   const [error, setError] = useState<string | null>(null);
 
   const handleFile = async (file: File | undefined) => {
@@ -57,6 +72,11 @@ export function GpxUploadField() {
 
       {points.length > 0 && (
         <div className="flex flex-col gap-3">
+          {initialPoints.length > 0 && points === initialPoints && (
+            <p className="text-sm text-muted-foreground">
+              Текущий маршрут. Загрузи новый файл, чтобы заменить его.
+            </p>
+          )}
           <RouteMap points={points} />
           <div className="flex gap-4 font-label text-xs uppercase text-muted-foreground">
             {distanceKm !== null && <span>{distanceKm} км</span>}
