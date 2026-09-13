@@ -3,6 +3,8 @@ import { getUser } from "@/utils/supabase/getUser";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import {CopyInviteCode} from "./copyInviteCode"
+import { LeaveGroupButton } from "@/components/leave-group-button";
+import { RemoveMemberButton } from "@/components/remove-member-button";
 
 type MemberRow = {
   role: string;
@@ -61,7 +63,10 @@ export default async function GroupPage({
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
-      <h1 className="text-2xl text-foreground">{group.name}</h1>
+      <div className="flex items-start justify-between gap-4">
+        <h1 className="text-2xl text-foreground">{group.name}</h1>
+        {!isOwner && <LeaveGroupButton groupId={group.id} />}
+      </div>
       {group.description && (
         <p className="mt-2 text-muted-foreground">{group.description}</p>
       )}
@@ -154,10 +159,18 @@ export default async function GroupPage({
                   )}
                 </div>
                 <span className="text-foreground">{m.profiles.full_name}</span>
-                {m.role === "owner" && (
+                {m.role === "owner" ? (
                   <span className="ml-auto border border-primary/40 bg-primary/15 px-2.5 py-0.5 font-label text-xs uppercase text-primary">
                     Владелец
                   </span>
+                ) : (
+                  isOwner && (
+                    <RemoveMemberButton
+                      groupId={group.id}
+                      userId={m.profiles.id}
+                      memberName={m.profiles.full_name}
+                    />
+                  )
                 )}
               </div>
             ) : null

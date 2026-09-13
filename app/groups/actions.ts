@@ -87,3 +87,55 @@ export async function joinGroup(formData: FormData) {
   revalidatePath("/groups");
   redirect(`/groups/${group_id}`);
 }
+
+export async function leaveGroup(groupId: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(`/login?next=/groups/${groupId}`);
+  }
+
+  const { error } = await supabase.rpc("leave_group", { p_group_id: groupId });
+
+  if (error) {
+    console.error("Supabase rpc error:", error);
+    if (error.message?.includes("owner_cannot_leave")) {
+      throw new Error("Владелец не может выйти из своей группы");
+    }
+    throw new Error("Не удалось выйти из группы. Попробуй ещё раз");
+  }
+
+  revalidatePath("/groups");
+  redirect("/groups");
+}
+
+export async function removeMember(groupId: string, userId: string) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(`/login?next=/groups/${groupId}`);
+  }
+
+  const { error } = await supabase.rpc("remove_group_member", {
+    p_group_id: groupId,
+    p_user_id: userId,
+  });
+
+  if (error) {
+    console.error("Supabase rpc error:", error);
+    if (error.message?.includes("not_authorized")) {
+      throw new Error("Только владелец группы может убирать участников");
+    }
+    throw new Error("Не удалось убрать участника. Попробуй ещё раз");
+  }
+
+  revalidatePath(`/groups/${groupId}`);
+}
