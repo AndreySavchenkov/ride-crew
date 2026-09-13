@@ -113,34 +113,42 @@ export default async function RidePage({
         <RideRsvpButtons rideId={ride.id} currentStatus={myRsvp?.status ?? null} />
       </div>
 
-      <div className="mt-8">
-        <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
-          Идут ({grouped.going.length})
-        </p>
-        <div className="flex flex-col gap-3">
-          {grouped.going.map((r) =>
-            r.profiles ? (
-              <div
-                key={r.profiles.id}
-                className="flex items-center gap-3 border-2 border-border bg-card p-3"
-              >
-                <div className="size-9 shrink-0 overflow-hidden bg-primary">
-                  {r.profiles.avatar_url && (
-                    <img
-                      src={r.profiles.avatar_url}
-                      alt={r.profiles.full_name}
-                      className="h-full w-full object-cover"
-                    />
-                  )}
-                </div>
-                <span className="text-foreground">{r.profiles.full_name}</span>
+      <RsvpRoster title="Идут" attendees={grouped.going} />
+      <RsvpRoster title="Под вопросом" attendees={grouped.maybe} />
+      <RsvpRoster title="Не идут" attendees={grouped.not_going} />
+    </div>
+  );
+}
+
+function RsvpRoster({ title, attendees }: { title: string; attendees: RsvpRow[] }) {
+  return (
+    <div className="mt-8">
+      <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
+        {title} ({attendees.length})
+      </p>
+      <div className="flex flex-col gap-3">
+        {attendees.map((r) =>
+          r.profiles ? (
+            <div
+              key={r.profiles.id}
+              className="flex items-center gap-3 border-2 border-border bg-card p-3"
+            >
+              <div className="size-9 shrink-0 overflow-hidden bg-primary">
+                {r.profiles.avatar_url && (
+                  <img
+                    src={r.profiles.avatar_url}
+                    alt={r.profiles.full_name}
+                    className="h-full w-full object-cover"
+                  />
+                )}
               </div>
-            ) : null
-          )}
-          {grouped.going.length === 0 && (
-            <p className="text-sm text-muted-foreground">Пока никто не отметился.</p>
-          )}
-        </div>
+              <span className="text-foreground">{r.profiles.full_name}</span>
+            </div>
+          ) : null
+        )}
+        {attendees.length === 0 && (
+          <p className="text-sm text-muted-foreground">Пока никто не отметился.</p>
+        )}
       </div>
     </div>
   );
