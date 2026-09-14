@@ -40,10 +40,18 @@ export default async function GroupPage({
 
   const { data: upcomingRides } = await supabase
     .from("rides")
-    .select("id, title, starts_at, distance_km")
+    .select("id, title, starts_at, distance_km, created_at, created_by")
     .eq("group_id", id)
     .gte("starts_at", nowIso)
     .order("starts_at", { ascending: true });
+
+  // "Новое" — просто последние NEW_RIDE_WINDOW_MS от чужого создателя, без
+  // отдельной таблицы "прочитано/не прочитано": бейдж сам исчезнет через
+  // пару дней, ничего дополнительно отслеживать не нужно.
+  const NEW_RIDE_WINDOW_MS = 3 * 24 * 60 * 60 * 1000;
+  const isNewRide = (ride: { created_at: string; created_by: string }) =>
+    ride.created_by !== user.id &&
+    Date.now() - new Date(ride.created_at).getTime() < NEW_RIDE_WINDOW_MS;
 
   const { data: pastRides } = await supabase
     .from("rides")
@@ -105,7 +113,14 @@ export default async function GroupPage({
                 href={`/rides/${ride.id}`}
                 className="flex items-center justify-between border-2 border-border bg-card p-4 transition-colors hover:border-primary"
               >
-                <span className="text-foreground">{ride.title}</span>
+                <span className="flex items-center gap-2 text-foreground">
+                  {ride.title}
+                  {isNewRide(ride) && (
+                    <span className="border border-primary/40 bg-primary/15 px-2 py-0.5 font-label text-[0.65rem] uppercase text-primary">
+                      Новое
+                    </span>
+                  )}
+                </span>
                 <span className="font-label text-xs uppercase text-muted-foreground">
                   {rideDateFormatter.format(new Date(ride.starts_at))}
                   {ride.distance_km && ` · ${ride.distance_km} км`}

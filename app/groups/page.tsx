@@ -20,6 +20,27 @@ export default async function GroupsPage() {
     .order("created_at", { ascending: false })
     .returns<GroupRow[]>();
 
+  // Сколько новых покатушек (от чужих создателей, за последние 3 дня) есть в
+  // каждой группе — без этого бейдж "Новое" видит только тот, кто уже открыл
+  // группу, а смысл уведомления как раз в обратном.
+  const NEW_RIDE_WINDOW_MS = 3 * 24 * 60 * 60 * 1000;
+  const newRidesCountByGroup = new Map<string, number>();
+  if (groups?.length) {
+    const { data: recentRides } = await supabase
+      .from("rides")
+      .select("group_id")
+      .in("group_id", groups.map((g) => g.id))
+      .neq("created_by", user.id)
+      .gte("created_at", new Date(Date.now() - NEW_RIDE_WINDOW_MS).toISOString());
+
+    for (const ride of recentRides ?? []) {
+      newRidesCountByGroup.set(
+        ride.group_id,
+        (newRidesCountByGroup.get(ride.group_id) ?? 0) + 1
+      );
+    }
+  }
+
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
       <div className="mb-8 flex items-center justify-between gap-3">
@@ -47,23 +68,33 @@ export default async function GroupsPage() {
         </p>
       ) : (
         <div className="flex flex-col gap-3">
-          {groups.map((group) => (
-            <Link
-              key={group.id}
-              href={`/groups/${group.id}`}
-              className="flex items-center gap-4 border-2 border-border bg-card p-4 transition-colors hover:border-primary"
-            >
-              <div className="size-11 shrink-0 bg-primary" />
-              <div>
-                <p className="text-foreground">{group.name}</p>
-                {group.description && (
-                  <p className="text-sm text-muted-foreground">
-                    {group.description}
+          {groups.map((group) => {
+            const newRidesCount = newRidesCountByGroup.get(group.id) ?? 0;
+            return (
+              <Link
+                key={group.id}
+                href={`/groups/${group.id}`}
+                className="flex items-center gap-4 border-2 border-border bg-card p-4 transition-colors hover:border-primary"
+              >
+                <div className="size-11 shrink-0 bg-primary" />
+                <div className="flex-1">
+                  <p className="flex items-center gap-2 text-foreground">
+                    {group.name}
+                    {newRidesCount > 0 && (
+                      <span className="border border-primary/40 bg-primary/15 px-2 py-0.5 font-label text-[0.65rem] uppercase text-primary">
+                        {newRidesCount} новых
+                      </span>
+                    )}
                   </p>
-                )}
-              </div>
-            </Link>
-          ))}
+                  {group.description && (
+                    <p className="text-sm text-muted-foreground">
+                      {group.description}
+                    </p>
+                  )}
+                </div>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>
