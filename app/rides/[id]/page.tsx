@@ -113,14 +113,22 @@ export default async function RidePage({
         <RideRsvpButtons rideId={ride.id} currentStatus={myRsvp?.status ?? null} />
       </div>
 
-      <RsvpRoster title="Идут" attendees={grouped.going} />
-      <RsvpRoster title="Под вопросом" attendees={grouped.maybe} />
-      <RsvpRoster title="Не идут" attendees={grouped.not_going} />
+      <RsvpRoster title="Идут" attendees={grouped.going} accentClassName="border-l-emerald-500" />
+      <RsvpRoster title="Под вопросом" attendees={grouped.maybe} accentClassName="border-l-amber-500" />
+      <RsvpRoster title="Не идут" attendees={grouped.not_going} accentClassName="border-l-red-500" />
     </div>
   );
 }
 
-function RsvpRoster({ title, attendees }: { title: string; attendees: RsvpRow[] }) {
+function RsvpRoster({
+  title,
+  attendees,
+  accentClassName,
+}: {
+  title: string;
+  attendees: RsvpRow[];
+  accentClassName: string;
+}) {
   return (
     <div className="mt-8">
       <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
@@ -131,7 +139,7 @@ function RsvpRoster({ title, attendees }: { title: string; attendees: RsvpRow[] 
           r.profiles ? (
             <div
               key={r.profiles.id}
-              className="flex items-center gap-3 border-2 border-border bg-card p-3"
+              className={`flex items-center gap-3 border-2 border-l-4 border-border bg-card p-3 ${accentClassName}`}
             >
               <div className="size-9 shrink-0 overflow-hidden bg-primary">
                 {r.profiles.avatar_url && (

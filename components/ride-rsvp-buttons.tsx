@@ -6,10 +6,30 @@ import { cn } from "@/lib/utils";
 
 type Status = "going" | "maybe" | "not_going";
 
-const OPTIONS: { status: Status; label: string }[] = [
-  { status: "going", label: "Иду" },
-  { status: "maybe", label: "Под вопросом" },
-  { status: "not_going", label: "Не иду" },
+const OPTIONS: {
+  status: Status;
+  label: string;
+  activeClassName: string;
+  hoverClassName: string;
+}[] = [
+  {
+    status: "going",
+    label: "Иду",
+    activeClassName: "border-emerald-500 bg-emerald-500 text-white",
+    hoverClassName: "hover:border-emerald-500",
+  },
+  {
+    status: "maybe",
+    label: "Под вопросом",
+    activeClassName: "border-amber-500 bg-amber-500 text-white",
+    hoverClassName: "hover:border-amber-500",
+  },
+  {
+    status: "not_going",
+    label: "Не иду",
+    activeClassName: "border-red-500 bg-red-500 text-white",
+    hoverClassName: "hover:border-red-500",
+  },
 ];
 
 export function RideRsvpButtons({
@@ -23,7 +43,7 @@ export function RideRsvpButtons({
 
   return (
     <div className="flex flex-wrap gap-2">
-      {OPTIONS.map(({ status, label }) => {
+      {OPTIONS.map(({ status, label, activeClassName, hoverClassName }) => {
         const active = currentStatus === status;
         return (
           <button
@@ -33,8 +53,8 @@ export function RideRsvpButtons({
             className={cn(
               "border-2 px-4 py-2 font-label text-xs uppercase transition-colors disabled:opacity-50",
               active
-                ? "border-primary bg-primary text-primary-foreground"
-                : "border-border bg-card text-foreground hover:border-primary"
+                ? activeClassName
+                : cn("border-border bg-card text-foreground", hoverClassName)
             )}
           >
             {label}
