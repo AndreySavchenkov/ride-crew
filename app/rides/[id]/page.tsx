@@ -138,6 +138,7 @@ function RsvpRoster({ title, attendees }: { title: string; attendees: RsvpRow[] 
                   <img
                     src={r.profiles.avatar_url}
                     alt={r.profiles.full_name}
+                    referrerPolicy="no-referrer"
                     className="h-full w-full object-cover"
                   />
                 )}

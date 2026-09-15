@@ -16,7 +16,7 @@ export const User = ({ user }: { user: SupabaseUser }) => {
     <div className="flex items-center gap-3">
       <div className="flex items-center gap-2.5 border-2 border-border bg-card py-1.5 pr-3.5 pl-1.5">
         <Avatar className="size-7 rounded-none border border-border">
-          <AvatarImage src={image} alt={name} />
+          <AvatarImage src={image} alt={name} referrerPolicy="no-referrer" />
           <AvatarFallback className="rounded-none bg-primary font-label text-xs text-primary-foreground">
             {fallbackName}
           </AvatarFallback>

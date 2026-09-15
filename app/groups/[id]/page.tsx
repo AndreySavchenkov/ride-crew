@@ -169,6 +169,7 @@ export default async function GroupPage({
                     <img
                       src={m.profiles.avatar_url}
                       alt={m.profiles.full_name}
+                      referrerPolicy="no-referrer"
                       className="h-full w-full object-cover"
                     />
                   )}

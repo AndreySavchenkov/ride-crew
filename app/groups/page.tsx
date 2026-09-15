@@ -41,6 +41,21 @@ export default async function GroupsPage() {
     }
   }
 
+  // Число участников на каждую группу — иначе приходится кликать в каждую
+  // группу, чтобы понять, насколько она живая.
+  const memberCountByGroup = new Map<string, number>();
+
+  if (groups?.length) {
+    const { data: allMembers } = await supabase
+      .from("group_members")
+      .select("group_id")
+      .in("group_id", groups.map((g) => g.id));
+
+    for (const m of allMembers ?? []) {
+      memberCountByGroup.set(m.group_id, (memberCountByGroup.get(m.group_id) ?? 0) + 1);
+    }
+  }
+
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
       <div className="mb-8 flex items-center justify-between gap-3">
@@ -70,6 +85,7 @@ export default async function GroupsPage() {
         <div className="flex flex-col gap-3">
           {groups.map((group) => {
             const newRidesCount = newRidesCountByGroup.get(group.id) ?? 0;
+            const memberCount = memberCountByGroup.get(group.id) ?? 0;
             return (
               <Link
                 key={group.id}
@@ -91,6 +107,9 @@ export default async function GroupsPage() {
                       {group.description}
                     </p>
                   )}
+                  <p className="mt-1 font-label text-xs uppercase text-muted-foreground">
+                    {memberCount} {memberCount === 1 ? "участник" : "участников"}
+                  </p>
                 </div>
               </Link>
             );
