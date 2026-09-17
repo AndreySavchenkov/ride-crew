@@ -19,7 +19,7 @@ export function SignInButton({ next }: { next?: string }) {
   return (
     <button
       onClick={handleSignIn}
-      className="flex items-center gap-2.5 border-2 border-primary bg-primary px-5 py-2.5 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="flex cursor-pointer items-center gap-2.5 border-2 border-primary bg-primary px-5 py-2.5 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <svg width="18" height="18" viewBox="0 0 18 18">
         <path

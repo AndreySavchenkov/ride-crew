@@ -27,7 +27,7 @@ export default function ErrorPage({
       <div className="flex items-center gap-3">
         <button
           onClick={retry}
-          className="border-2 border-primary bg-primary px-6 py-3 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
+          className="cursor-pointer border-2 border-primary bg-primary px-6 py-3 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
         >
           Попробовать снова
         </button>

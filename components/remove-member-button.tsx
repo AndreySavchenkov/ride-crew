@@ -25,7 +25,7 @@ export function RemoveMemberButton({
     <button
       onClick={handleRemove}
       disabled={isPending}
-      className="ml-auto font-label text-xs uppercase text-muted-foreground transition-colors hover:text-destructive disabled:opacity-50"
+      className="ml-auto cursor-pointer font-label text-xs uppercase text-muted-foreground transition-colors hover:text-destructive disabled:cursor-not-allowed disabled:opacity-50"
     >
       {isPending ? "Убираем…" : "Убрать"}
     </button>

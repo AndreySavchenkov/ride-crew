@@ -89,7 +89,7 @@ export default async function NewRidePage({
 
         <button
           type="submit"
-          className="mt-2 border-2 border-primary bg-primary px-6 py-3 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
+          className="mt-2 cursor-pointer border-2 border-primary bg-primary px-6 py-3 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
         >
           Создать покатушку
         </button>
