@@ -6,6 +6,7 @@ import { Footer } from "@/components/footer";
 import { fontBody, fontDisplay, fontLabel } from "./fonts";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { TimezoneSync } from "@/components/timezone-sync";
 
 export const viewport: Viewport = {
   themeColor: "#0f1013",
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Footer />
         <Analytics />
         <SpeedInsights />
+        <TimezoneSync />
       </body>
     </html>
   );

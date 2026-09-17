@@ -1,5 +1,6 @@
 import { createRide } from "@/app/rides/actions";
 import { GpxUploadField } from "@/components/gpx-upload-field";
+import { DateTimeLocalField } from "@/components/datetime-local-field";
 import { getUser } from "@/utils/supabase/getUser";
 import { redirect } from "next/navigation";
 
@@ -35,21 +36,7 @@ export default async function NewRidePage({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="starts_at"
-            className="font-label text-xs uppercase text-muted-foreground"
-          >
-            Дата и время
-          </label>
-          <input
-            id="starts_at"
-            name="starts_at"
-            type="datetime-local"
-            required
-            className="border-2 border-border bg-card px-4 py-2.5 text-foreground focus:border-primary focus:outline-none"
-          />
-        </div>
+        <DateTimeLocalField />
 
         <div className="flex flex-col gap-2">
           <label

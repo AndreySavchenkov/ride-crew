@@ -3,6 +3,7 @@ import { getUser } from "@/utils/supabase/getUser";
 import { redirect, notFound } from "next/navigation";
 import { updateRide } from "@/app/rides/actions";
 import { GpxUploadField } from "@/components/gpx-upload-field";
+import { DateTimeLocalField } from "@/components/datetime-local-field";
 
 export default async function EditRidePage({
   params,
@@ -28,8 +29,6 @@ export default async function EditRidePage({
     redirect(`/rides/${id}`);
   }
 
-  const startsAtLocal = new Date(ride.starts_at).toISOString().slice(0, 16);
-
   return (
     <div className="mx-auto max-w-md px-6 py-12">
       <h1 className="mb-8 text-2xl text-foreground">Редактировать покатушку</h1>
@@ -53,22 +52,7 @@ export default async function EditRidePage({
           />
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label
-            htmlFor="starts_at"
-            className="font-label text-xs uppercase text-muted-foreground"
-          >
-            Дата и время
-          </label>
-          <input
-            id="starts_at"
-            name="starts_at"
-            type="datetime-local"
-            required
-            defaultValue={startsAtLocal}
-            className="border-2 border-border bg-card px-4 py-2.5 text-foreground focus:border-primary focus:outline-none"
-          />
-        </div>
+        <DateTimeLocalField defaultValueIso={ride.starts_at} />
 
         <div className="flex flex-col gap-2">
           <label

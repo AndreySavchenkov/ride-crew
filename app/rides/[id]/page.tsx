@@ -5,20 +5,13 @@ import Link from "next/link";
 import { RouteMap } from "@/components/route-map";
 import { RideRsvpButtons } from "@/components/ride-rsvp-buttons";
 import { RideOwnerActions } from "@/components/ride-owner-actions";
+import { getViewerTimezone } from "@/utils/get-viewer-timezone";
 
 type RsvpRow = {
   status: "going" | "maybe" | "not_going";
   user_id: string;
   profiles: { id: string; full_name: string; avatar_url: string | null } | null;
 };
-
-const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
-  weekday: "short",
-  day: "numeric",
-  month: "long",
-  hour: "2-digit",
-  minute: "2-digit",
-});
 
 export default async function RidePage({
   params,
@@ -30,6 +23,19 @@ export default async function RidePage({
   if (!user) redirect(`/login?next=/rides/${id}`);
 
   const supabase = await createClient();
+  const viewerTimezone = await getViewerTimezone();
+
+  // Часовой пояс зрителя (см. TimezoneSync/getViewerTimezone) — без него
+  // это форматирование считалось бы в поясе рантайма сервера (на Vercel —
+  // всегда UTC), а не в реальном поясе того, кто смотрит на дату.
+  const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: viewerTimezone,
+  });
 
   const { data: ride } = await supabase
     .from("rides")

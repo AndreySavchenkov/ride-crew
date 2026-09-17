@@ -5,6 +5,7 @@ import Link from "next/link";
 import {CopyInviteCode} from "./copyInviteCode"
 import { LeaveGroupButton } from "@/components/leave-group-button";
 import { RemoveMemberButton } from "@/components/remove-member-button";
+import { getViewerTimezone } from "@/utils/get-viewer-timezone";
 
 type MemberRow = {
   role: string;
@@ -60,11 +61,14 @@ export default async function GroupPage({
     .lt("starts_at", nowIso)
     .order("starts_at", { ascending: false });
 
+  const viewerTimezone = await getViewerTimezone();
+  // См. комментарий про часовой пояс зрителя в app/rides/[id]/page.tsx.
   const rideDateFormatter = new Intl.DateTimeFormat("ru-RU", {
     day: "numeric",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
+    timeZone: viewerTimezone,
   });
 
   const isOwner = group.created_by === user.id;
