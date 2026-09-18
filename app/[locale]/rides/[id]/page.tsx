@@ -6,11 +6,21 @@ import { Link } from "@/i18n/navigation";
 import { RouteMap } from "@/components/route-map";
 import { RideRsvpButtons } from "@/components/ride-rsvp-buttons";
 import { RideOwnerActions } from "@/components/ride-owner-actions";
+import { RideCommentForm } from "@/components/ride-comment-form";
+import { DeleteCommentButton } from "@/components/delete-comment-button";
 import { getViewerTimezone } from "@/utils/get-viewer-timezone";
 import { toIntlLocale } from "@/utils/intl-locale";
 
 type RsvpRow = {
   status: "going" | "maybe" | "not_going";
+  user_id: string;
+  profiles: { id: string; full_name: string; avatar_url: string | null } | null;
+};
+
+type CommentRow = {
+  id: string;
+  body: string;
+  created_at: string;
   user_id: string;
   profiles: { id: string; full_name: string; avatar_url: string | null } | null;
 };
@@ -26,6 +36,7 @@ export default async function RidePage({
   if (!user) redirect(`/${locale}/login?next=/rides/${id}`);
 
   const t = await getTranslations("RideDetail");
+  const tc = await getTranslations("RideComments");
   const supabase = await createClient();
   const viewerTimezone = await getViewerTimezone();
 
@@ -36,6 +47,14 @@ export default async function RidePage({
     weekday: "short",
     day: "numeric",
     month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: viewerTimezone,
+  });
+
+  const commentDateFormatter = new Intl.DateTimeFormat(toIntlLocale(locale), {
+    day: "numeric",
+    month: "short",
     hour: "2-digit",
     minute: "2-digit",
     timeZone: viewerTimezone,
@@ -56,6 +75,13 @@ export default async function RidePage({
     .select("status, user_id, profiles(id, full_name, avatar_url)")
     .eq("ride_id", id)
     .returns<RsvpRow[]>();
+
+  const { data: comments } = await supabase
+    .from("ride_comments")
+    .select("id, body, created_at, user_id, profiles(id, full_name, avatar_url)")
+    .eq("ride_id", id)
+    .order("created_at", { ascending: true })
+    .returns<CommentRow[]>();
 
   const myRsvp = rsvps?.find((r) => r.user_id === user.id) ?? null;
   const groupName = (ride.groups as unknown as { name: string } | null)?.name;
@@ -128,6 +154,53 @@ export default async function RidePage({
       <RsvpRoster title={t("going")} attendees={grouped.going} accentClassName="border-l-emerald-500" nobodyYet={t("nobodyYet")} />
       <RsvpRoster title={t("maybe")} attendees={grouped.maybe} accentClassName="border-l-amber-500" nobodyYet={t("nobodyYet")} />
       <RsvpRoster title={t("notGoing")} attendees={grouped.not_going} accentClassName="border-l-red-500" nobodyYet={t("nobodyYet")} />
+
+      <div className="mt-8">
+        <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
+          {tc("title", { count: comments?.length ?? 0 })}
+        </p>
+
+        <div className="mb-4 flex flex-col gap-3">
+          {comments?.map((c) =>
+            c.profiles ? (
+              <div
+                key={c.id}
+                className="flex items-start gap-3 border-2 border-border bg-card p-3"
+              >
+                <div className="size-9 shrink-0 overflow-hidden bg-primary">
+                  {c.profiles.avatar_url && (
+                    <img
+                      src={c.profiles.avatar_url}
+                      alt={c.profiles.full_name}
+                      referrerPolicy="no-referrer"
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-sm text-foreground">{c.profiles.full_name}</span>
+                    <span className="font-label text-[0.65rem] uppercase text-muted-foreground">
+                      {commentDateFormatter.format(new Date(c.created_at))}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-sm whitespace-pre-wrap text-foreground">{c.body}</p>
+                  {c.user_id === user.id && (
+                    <div className="mt-1">
+                      <DeleteCommentButton commentId={c.id} rideId={ride.id} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : null
+          )}
+          {!comments?.length && (
+            <p className="text-sm text-muted-foreground">{tc("empty")}</p>
+          )}
+        </div>
+
+        <RideCommentForm rideId={ride.id} />
+      </div>
     </div>
   );
 }

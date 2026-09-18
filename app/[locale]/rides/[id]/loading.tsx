@@ -37,6 +37,25 @@ export default function RideLoading() {
           </div>
         </div>
       ))}
+
+      <div className="mt-8">
+        <Skeleton className="mb-4 h-4 w-32" />
+        <div className="mb-4 flex flex-col gap-3">
+          {Array.from({ length: 2 }).map((_, i) => (
+            <div
+              key={i}
+              className="flex items-start gap-3 border-2 border-border bg-card p-3"
+            >
+              <Skeleton className="size-9 shrink-0" />
+              <div className="flex-1">
+                <Skeleton className="h-4 w-32" />
+                <Skeleton className="mt-2 h-4 w-full" />
+              </div>
+            </div>
+          ))}
+        </div>
+        <Skeleton className="h-20 w-full" />
+      </div>
     </div>
   );
 }

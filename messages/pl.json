@@ -163,6 +163,18 @@
     "updateFailed": "Nie udało się zapisać zmian. Spróbuj ponownie",
     "onlyOwnerCanCancel": "Tylko autor może odwołać ten wyjazd",
     "cancelFailed": "Nie udało się odwołać wyjazdu. Spróbuj ponownie",
-    "rsvpFailed": "Nie udało się zapisać odpowiedzi"
+    "rsvpFailed": "Nie udało się zapisać odpowiedzi",
+    "commentRequired": "Komentarz nie może być pusty",
+    "commentFailed": "Nie udało się wysłać komentarza. Spróbuj ponownie",
+    "commentDeleteFailed": "Nie udało się usunąć komentarza. Spróbuj ponownie"
+  },
+  "RideComments": {
+    "title": "Komentarze ({count})",
+    "placeholder": "Napisz komentarz...",
+    "submit": "Wyślij",
+    "sending": "Wysyłanie…",
+    "empty": "Nie ma jeszcze żadnych komentarzy.",
+    "delete": "Usuń",
+    "deleting": "Usuwanie…"
   }
 }

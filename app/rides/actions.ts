@@ -198,3 +198,61 @@ export async function setRsvp(rideId: string, status: "going" | "maybe" | "not_g
 
   revalidatePath(`/rides/${rideId}`);
 }
+
+export async function addComment(formData: FormData) {
+  const supabase = await createClient();
+  const locale = await getViewerLocale();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const rideId = formData.get("ride_id") as string;
+
+  if (!user) {
+    redirect(`/${locale}/login?next=/rides/${rideId}`);
+  }
+
+  const t = await getTranslations({ locale, namespace: "RideActions" });
+
+  const body = (formData.get("body") as string)?.trim();
+  if (!body) {
+    throw new Error(t("commentRequired"));
+  }
+
+  const { error } = await supabase.from("ride_comments").insert({
+    ride_id: rideId,
+    user_id: user.id,
+    body,
+  });
+
+  if (error) {
+    console.error("Supabase insert error:", error);
+    throw new Error(t("commentFailed"));
+  }
+
+  revalidatePath(`/rides/${rideId}`);
+}
+
+export async function deleteComment(commentId: string, rideId: string) {
+  const supabase = await createClient();
+  const locale = await getViewerLocale();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(`/${locale}/login?next=/rides/${rideId}`);
+  }
+
+  const { error } = await supabase.from("ride_comments").delete().eq("id", commentId);
+
+  if (error) {
+    console.error("Supabase delete error:", error);
+    const t = await getTranslations({ locale, namespace: "RideActions" });
+    throw new Error(t("commentDeleteFailed"));
+  }
+
+  revalidatePath(`/rides/${rideId}`);
+}

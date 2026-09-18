@@ -163,6 +163,18 @@
     "updateFailed": "Couldn't save the changes. Try again",
     "onlyOwnerCanCancel": "Only the creator can cancel this ride",
     "cancelFailed": "Couldn't cancel the ride. Try again",
-    "rsvpFailed": "Couldn't save your response"
+    "rsvpFailed": "Couldn't save your response",
+    "commentRequired": "Comment can't be empty",
+    "commentFailed": "Couldn't post the comment. Try again",
+    "commentDeleteFailed": "Couldn't delete the comment. Try again"
+  },
+  "RideComments": {
+    "title": "Comments ({count})",
+    "placeholder": "Write a comment...",
+    "submit": "Post",
+    "sending": "Posting…",
+    "empty": "No comments yet.",
+    "delete": "Delete",
+    "deleting": "Deleting…"
   }
 }
