@@ -1,0 +1,168 @@
+{
+  "Header": {
+    "brand": "RIDE CREW",
+    "groups": "Группы"
+  },
+  "Footer": {
+    "rights": "© {year} Ride Crew",
+    "instagram": "Instagram"
+  },
+  "LanguageSwitcher": {
+    "label": "Язык"
+  },
+  "Home": {
+    "eyebrow": "Ride Crew",
+    "title": "Организуй групповые покатушки",
+    "subtitle": "Создавай группы, зови друзей, планируйте покатушки вместе — без хаоса в чатах и таблицах.",
+    "cta": "Начать"
+  },
+  "NotFound": {
+    "eyebrow": "404",
+    "title": "Страница не найдена",
+    "description": "Такой страницы не существует — возможно, покатушку отменили или её адрес был неверным.",
+    "myGroups": "Мои группы",
+    "home": "На главную"
+  },
+  "ErrorPage": {
+    "eyebrow": "Упс",
+    "title": "Что-то пошло не так",
+    "defaultMessage": "Не удалось выполнить запрос. Попробуй ещё раз.",
+    "retry": "Попробовать снова",
+    "home": "На главную"
+  },
+  "Login": {
+    "eyebrow": "Ride Crew",
+    "heading": "Войди, чтобы продолжить",
+    "subtitle": "Нужно войти через Google, чтобы видеть группы и покатушки."
+  },
+  "Groups": {
+    "title": "Мои группы",
+    "joinByCode": "Вступить по коду",
+    "createGroup": "+ Создать группу",
+    "empty": "Пока нет групп. Создай свою или вступи в существующую по коду приглашения.",
+    "newRides": "{count} новых",
+    "members": "{count, plural, one {# участник} other {# участников}}"
+  },
+  "NewGroup": {
+    "title": "Создать группу",
+    "nameLabel": "Название",
+    "namePlaceholder": "Poznań MTB Crew",
+    "descriptionLabel": "Описание (необязательно)",
+    "descriptionPlaceholder": "Компания для покатушек по трейлам Zielonka",
+    "submit": "Создать группу"
+  },
+  "JoinGroup": {
+    "title": "Вступить в группу",
+    "subtitle": "Введи код приглашения, который прислал организатор группы.",
+    "codeLabel": "Код приглашения",
+    "codePlaceholder": "Например, ABCD12",
+    "submit": "Вступить"
+  },
+  "GroupDetail": {
+    "inviteCode": "Код приглашения",
+    "upcomingRides": "Ближайшие покатушки",
+    "createRide": "+ Создать покатушку",
+    "nothingPlanned": "Пока ничего не запланировано.",
+    "newBadge": "Новое",
+    "archive": "Архив ({count})",
+    "members": "Участники ({count})",
+    "owner": "Владелец",
+    "distanceKm": "{value} км"
+  },
+  "CopyInviteCode": {
+    "copied": "Скопировано!",
+    "copyCode": "Скопировать код",
+    "copyLink": "Скопировать ссылку"
+  },
+  "LeaveGroupButton": {
+    "confirm": "Выйти из этой группы? Придётся заново вступать по коду приглашения.",
+    "leaving": "Выходим…",
+    "leave": "Выйти из группы"
+  },
+  "RemoveMemberButton": {
+    "confirm": "Убрать {name} из группы?",
+    "removing": "Убираем…",
+    "remove": "Убрать"
+  },
+  "RideForm": {
+    "titleLabel": "Название",
+    "titlePlaceholder": "Вечерняя покатушка по трейлам",
+    "dateTimeLabel": "Дата и время",
+    "locationLabel": "Место старта (необязательно)",
+    "locationPlaceholder": "Парковка у Zielonka",
+    "routeUrlLabel": "Ссылка на Strava/Komoot (необязательно)",
+    "routeUrlPlaceholder": "https://www.strava.com/routes/...",
+    "descriptionLabel": "Описание (необязательно)",
+    "descriptionPlaceholder": "Темп спокойный, ждём отстающих"
+  },
+  "NewRide": {
+    "title": "Создать покатушку",
+    "submit": "Создать покатушку"
+  },
+  "EditRide": {
+    "title": "Редактировать покатушку",
+    "submit": "Сохранить изменения"
+  },
+  "GpxUpload": {
+    "label": "Маршрут (GPX, необязательно)",
+    "error": "Не удалось прочитать GPX-файл. Проверь, что это трек или маршрут.",
+    "currentRoute": "Текущий маршрут. Загрузи новый файл, чтобы заменить его.",
+    "distanceKm": "{value} км",
+    "elevationM": "+{value} м"
+  },
+  "RideDetail": {
+    "openRoute": "Открыть маршрут ↗",
+    "yourResponse": "Твой ответ",
+    "going": "Идут",
+    "maybe": "Под вопросом",
+    "notGoing": "Не идут",
+    "rosterCount": "{title} ({count})",
+    "nobodyYet": "Пока никто не отметился.",
+    "distanceKm": "{value} км",
+    "elevationM": "+{value} м"
+  },
+  "RideOwnerActions": {
+    "edit": "Редактировать",
+    "cancelConfirm": "Отменить эту покатушку? Это действие нельзя отменить, RSVP участников тоже удалятся.",
+    "cancelling": "Отменяем…",
+    "cancel": "Отменить покатушку"
+  },
+  "RideRsvp": {
+    "going": "Иду",
+    "maybe": "Под вопросом",
+    "notGoing": "Не иду"
+  },
+  "SignIn": {
+    "continueWithGoogle": "Продолжить с Google"
+  },
+  "SignOut": {
+    "signOut": "Выйти"
+  },
+  "User": {
+    "defaultName": "Пользователь"
+  },
+  "GroupActions": {
+    "nameRequired": "Название группы обязательно",
+    "createFailed": "Не удалось создать группу. Попробуй ещё раз",
+    "ownerAddFailed": "Группа создана, но не удалось добавить тебя как владельца",
+    "codeRequired": "Введи код приглашения",
+    "codeNotFound": "Такого кода приглашения не существует. Проверь и попробуй ещё раз",
+    "joinFailed": "Не удалось вступить в группу. Попробуй ещё раз",
+    "ownerCantLeave": "Владелец не может выйти из своей группы",
+    "leaveFailed": "Не удалось выйти из группы. Попробуй ещё раз",
+    "onlyOwnerCanRemove": "Только владелец группы может убирать участников",
+    "removeFailed": "Не удалось убрать участника. Попробуй ещё раз"
+  },
+  "RideActions": {
+    "groupRequired": "Не указана группа",
+    "titleRequired": "Название покатушки обязательно",
+    "dateRequired": "Укажи дату и время покатушки",
+    "createFailed": "Не удалось создать покатушку. Попробуй ещё раз",
+    "rideRequired": "Не указана покатушка",
+    "onlyOwnerCanEdit": "Только автор может редактировать эту покатушку",
+    "updateFailed": "Не удалось сохранить изменения. Попробуй ещё раз",
+    "onlyOwnerCanCancel": "Только автор может отменить эту покатушку",
+    "cancelFailed": "Не удалось отменить покатушку. Попробуй ещё раз",
+    "rsvpFailed": "Не удалось сохранить ответ"
+  }
+}

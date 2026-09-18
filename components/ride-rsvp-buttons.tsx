@@ -1,6 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
+import { useTranslations } from "next-intl";
 import { setRsvp } from "@/app/rides/actions";
 import { cn } from "@/lib/utils";
 
@@ -8,29 +9,31 @@ type Status = "going" | "maybe" | "not_going";
 
 const OPTIONS: {
   status: Status;
-  label: string;
   activeClassName: string;
   hoverClassName: string;
 }[] = [
   {
     status: "going",
-    label: "Иду",
     activeClassName: "border-emerald-500 bg-emerald-500 text-white",
     hoverClassName: "hover:border-emerald-500",
   },
   {
     status: "maybe",
-    label: "Под вопросом",
     activeClassName: "border-amber-500 bg-amber-500 text-white",
     hoverClassName: "hover:border-amber-500",
   },
   {
     status: "not_going",
-    label: "Не иду",
     activeClassName: "border-red-500 bg-red-500 text-white",
     hoverClassName: "hover:border-red-500",
   },
 ];
+
+const LABEL_KEY: Record<Status, "going" | "maybe" | "notGoing"> = {
+  going: "going",
+  maybe: "maybe",
+  not_going: "notGoing",
+};
 
 export function RideRsvpButtons({
   rideId,
@@ -39,11 +42,12 @@ export function RideRsvpButtons({
   rideId: string;
   currentStatus: Status | null;
 }) {
+  const t = useTranslations("RideRsvp");
   const [isPending, startTransition] = useTransition();
 
   return (
     <div className="flex flex-wrap gap-2">
-      {OPTIONS.map(({ status, label, activeClassName, hoverClassName }) => {
+      {OPTIONS.map(({ status, activeClassName, hoverClassName }) => {
         const active = currentStatus === status;
         return (
           <button
@@ -57,7 +61,7 @@ export function RideRsvpButtons({
                 : cn("border-border bg-card text-foreground", hoverClassName)
             )}
           >
-            {label}
+            {t(LABEL_KEY[status])}
           </button>
         );
       })}

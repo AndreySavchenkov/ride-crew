@@ -1,9 +1,11 @@
+import { getTranslations } from "next-intl/server";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { SignOutButton } from "./signOutButton";
 import type { User as SupabaseUser } from "@supabase/supabase-js";
 
-export const User = ({ user }: { user: SupabaseUser }) => {
-  const name = user.user_metadata.name ?? user.email ?? "Пользователь";
+export const User = async ({ user }: { user: SupabaseUser }) => {
+  const t = await getTranslations("User");
+  const name = user.user_metadata.name ?? user.email ?? t("defaultName");
   const image = user.user_metadata.avatar_url;
   const fallbackName = name
     .split(" ")

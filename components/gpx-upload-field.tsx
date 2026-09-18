@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { parseGpx } from "@/lib/gpx";
 import { RouteMap } from "@/components/route-map";
 
@@ -21,6 +22,7 @@ export function GpxUploadField({
   initialDistanceKm = null,
   initialElevationGainM = null,
 }: GpxUploadFieldProps) {
+  const t = useTranslations("GpxUpload");
   const [points, setPoints] = useState<[number, number][]>(initialPoints);
   const [distanceKm, setDistanceKm] = useState<number | null>(initialDistanceKm);
   const [elevationGainM, setElevationGainM] = useState<number | null>(
@@ -47,7 +49,7 @@ export function GpxUploadField({
       setPoints([]);
       setDistanceKm(null);
       setElevationGainM(null);
-      setError("Не удалось прочитать GPX-файл. Проверь, что это трек или маршрут.");
+      setError(t("error"));
     }
   };
 
@@ -57,7 +59,7 @@ export function GpxUploadField({
         htmlFor="gpx"
         className="font-label text-xs uppercase text-muted-foreground"
       >
-        Маршрут (GPX, необязательно)
+        {t("label")}
       </label>
       <input
         id="gpx"
@@ -74,13 +76,13 @@ export function GpxUploadField({
         <div className="flex flex-col gap-3">
           {initialPoints.length > 0 && points === initialPoints && (
             <p className="text-sm text-muted-foreground">
-              Текущий маршрут. Загрузи новый файл, чтобы заменить его.
+              {t("currentRoute")}
             </p>
           )}
           <RouteMap points={points} />
           <div className="flex gap-4 font-label text-xs uppercase text-muted-foreground">
-            {distanceKm !== null && <span>{distanceKm} км</span>}
-            {elevationGainM !== null && <span>+{elevationGainM} м</span>}
+            {distanceKm !== null && <span>{t("distanceKm", { value: distanceKm })}</span>}
+            {elevationGainM !== null && <span>{t("elevationM", { value: elevationGainM })}</span>}
           </div>
         </div>
       )}

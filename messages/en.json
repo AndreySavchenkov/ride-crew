@@ -1,0 +1,168 @@
+{
+  "Header": {
+    "brand": "RIDE CREW",
+    "groups": "Groups"
+  },
+  "Footer": {
+    "rights": "© {year} Ride Crew",
+    "instagram": "Instagram"
+  },
+  "LanguageSwitcher": {
+    "label": "Language"
+  },
+  "Home": {
+    "eyebrow": "Ride Crew",
+    "title": "Organize group rides",
+    "subtitle": "Create groups, invite friends, plan rides together — no more chaos in chats and spreadsheets.",
+    "cta": "Get started"
+  },
+  "NotFound": {
+    "eyebrow": "404",
+    "title": "Page not found",
+    "description": "This page doesn't exist — maybe the ride was cancelled or the link was wrong.",
+    "myGroups": "My groups",
+    "home": "Home"
+  },
+  "ErrorPage": {
+    "eyebrow": "Oops",
+    "title": "Something went wrong",
+    "defaultMessage": "Couldn't complete the request. Try again.",
+    "retry": "Try again",
+    "home": "Home"
+  },
+  "Login": {
+    "eyebrow": "Ride Crew",
+    "heading": "Sign in to continue",
+    "subtitle": "Sign in with Google to see your groups and rides."
+  },
+  "Groups": {
+    "title": "My groups",
+    "joinByCode": "Join with code",
+    "createGroup": "+ Create group",
+    "empty": "No groups yet. Create one or join an existing group with an invite code.",
+    "newRides": "{count} new",
+    "members": "{count, plural, one {# member} other {# members}}"
+  },
+  "NewGroup": {
+    "title": "Create group",
+    "nameLabel": "Name",
+    "namePlaceholder": "Poznań MTB Crew",
+    "descriptionLabel": "Description (optional)",
+    "descriptionPlaceholder": "The crew for trail rides around Zielonka",
+    "submit": "Create group"
+  },
+  "JoinGroup": {
+    "title": "Join a group",
+    "subtitle": "Enter the invite code the group organizer sent you.",
+    "codeLabel": "Invite code",
+    "codePlaceholder": "e.g. ABCD12",
+    "submit": "Join"
+  },
+  "GroupDetail": {
+    "inviteCode": "Invite code",
+    "upcomingRides": "Upcoming rides",
+    "createRide": "+ Create ride",
+    "nothingPlanned": "Nothing planned yet.",
+    "newBadge": "New",
+    "archive": "Archive ({count})",
+    "members": "Members ({count})",
+    "owner": "Owner",
+    "distanceKm": "{value} km"
+  },
+  "CopyInviteCode": {
+    "copied": "Copied!",
+    "copyCode": "Copy code",
+    "copyLink": "Copy link"
+  },
+  "LeaveGroupButton": {
+    "confirm": "Leave this group? You'll need to join again with an invite code.",
+    "leaving": "Leaving…",
+    "leave": "Leave group"
+  },
+  "RemoveMemberButton": {
+    "confirm": "Remove {name} from the group?",
+    "removing": "Removing…",
+    "remove": "Remove"
+  },
+  "RideForm": {
+    "titleLabel": "Title",
+    "titlePlaceholder": "Evening trail ride",
+    "dateTimeLabel": "Date and time",
+    "locationLabel": "Starting point (optional)",
+    "locationPlaceholder": "Parking lot near Zielonka",
+    "routeUrlLabel": "Strava/Komoot link (optional)",
+    "routeUrlPlaceholder": "https://www.strava.com/routes/...",
+    "descriptionLabel": "Description (optional)",
+    "descriptionPlaceholder": "Easy pace, we wait for everyone"
+  },
+  "NewRide": {
+    "title": "Create ride",
+    "submit": "Create ride"
+  },
+  "EditRide": {
+    "title": "Edit ride",
+    "submit": "Save changes"
+  },
+  "GpxUpload": {
+    "label": "Route (GPX, optional)",
+    "error": "Couldn't read the GPX file. Make sure it's a track or route.",
+    "currentRoute": "Current route. Upload a new file to replace it.",
+    "distanceKm": "{value} km",
+    "elevationM": "+{value} m"
+  },
+  "RideDetail": {
+    "openRoute": "Open route ↗",
+    "yourResponse": "Your response",
+    "going": "Going",
+    "maybe": "Maybe",
+    "notGoing": "Not going",
+    "rosterCount": "{title} ({count})",
+    "nobodyYet": "Nobody's responded yet.",
+    "distanceKm": "{value} km",
+    "elevationM": "+{value} m"
+  },
+  "RideOwnerActions": {
+    "edit": "Edit",
+    "cancelConfirm": "Cancel this ride? This can't be undone, and everyone's RSVPs will be deleted too.",
+    "cancelling": "Cancelling…",
+    "cancel": "Cancel ride"
+  },
+  "RideRsvp": {
+    "going": "Going",
+    "maybe": "Maybe",
+    "notGoing": "Not going"
+  },
+  "SignIn": {
+    "continueWithGoogle": "Continue with Google"
+  },
+  "SignOut": {
+    "signOut": "Sign Out"
+  },
+  "User": {
+    "defaultName": "User"
+  },
+  "GroupActions": {
+    "nameRequired": "Group name is required",
+    "createFailed": "Couldn't create the group. Try again",
+    "ownerAddFailed": "Group created, but couldn't add you as owner",
+    "codeRequired": "Enter an invite code",
+    "codeNotFound": "This invite code doesn't exist. Check it and try again",
+    "joinFailed": "Couldn't join the group. Try again",
+    "ownerCantLeave": "The owner can't leave their own group",
+    "leaveFailed": "Couldn't leave the group. Try again",
+    "onlyOwnerCanRemove": "Only the group owner can remove members",
+    "removeFailed": "Couldn't remove the member. Try again"
+  },
+  "RideActions": {
+    "groupRequired": "Group not specified",
+    "titleRequired": "Ride title is required",
+    "dateRequired": "Set the ride's date and time",
+    "createFailed": "Couldn't create the ride. Try again",
+    "rideRequired": "Ride not specified",
+    "onlyOwnerCanEdit": "Only the creator can edit this ride",
+    "updateFailed": "Couldn't save the changes. Try again",
+    "onlyOwnerCanCancel": "Only the creator can cancel this ride",
+    "cancelFailed": "Couldn't cancel the ride. Try again",
+    "rsvpFailed": "Couldn't save your response"
+  }
+}

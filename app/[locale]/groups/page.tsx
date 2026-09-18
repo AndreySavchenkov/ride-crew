@@ -1,14 +1,17 @@
 import { createClient } from "@/utils/supabase/server";
 import { getUser } from "@/utils/supabase/getUser";
-import Link from "next/link";
+import { getTranslations, getLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
 
 type GroupRow = { id: string; name: string; description: string | null };
 
 export default async function GroupsPage() {
   const user = await getUser();
-  if (!user) redirect("/login?next=/groups");
+  const locale = await getLocale();
+  if (!user) redirect(`/${locale}/login?next=/groups`);
 
+  const t = await getTranslations("Groups");
   const supabase = await createClient();
 
   // Inner join on group_members scopes this to groups the user actually
@@ -59,28 +62,25 @@ export default async function GroupsPage() {
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
       <div className="mb-8 flex items-center justify-between gap-3">
-        <h1 className="text-2xl text-foreground">Мои группы</h1>
+        <h1 className="text-2xl text-foreground">{t("title")}</h1>
         <div className="flex items-center gap-3">
           <Link
             href="/groups/join"
             className="border-2 border-border bg-card px-5 py-2.5 font-label text-sm uppercase text-foreground transition-colors hover:border-primary"
           >
-            Вступить по коду
+            {t("joinByCode")}
           </Link>
           <Link
             href="/groups/new"
             className="border-2 border-primary bg-primary px-5 py-2.5 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
           >
-            + Создать группу
+            {t("createGroup")}
           </Link>
         </div>
       </div>
 
       {!groups?.length ? (
-        <p className="text-muted-foreground">
-          Пока нет групп. Создай свою или вступи в существующую по коду
-          приглашения.
-        </p>
+        <p className="text-muted-foreground">{t("empty")}</p>
       ) : (
         <div className="flex flex-col gap-3">
           {groups.map((group) => {
@@ -98,7 +98,7 @@ export default async function GroupsPage() {
                     {group.name}
                     {newRidesCount > 0 && (
                       <span className="border border-primary/40 bg-primary/15 px-2 py-0.5 font-label text-[0.65rem] uppercase text-primary">
-                        {newRidesCount} новых
+                        {t("newRides", { count: newRidesCount })}
                       </span>
                     )}
                   </p>
@@ -108,7 +108,7 @@ export default async function GroupsPage() {
                     </p>
                   )}
                   <p className="mt-1 font-label text-xs uppercase text-muted-foreground">
-                    {memberCount} {memberCount === 1 ? "участник" : "участников"}
+                    {t("members", { count: memberCount })}
                   </p>
                 </div>
               </Link>

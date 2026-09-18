@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 
 export function CopyInviteCode({ code }: { code: string }) {
+  const t = useTranslations("CopyInviteCode");
+  const locale = useLocale();
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
@@ -13,7 +16,7 @@ export function CopyInviteCode({ code }: { code: string }) {
   };
 
   const handleCopyLink = async () => {
-    const link = `${location.origin}/groups/join?code=${encodeURIComponent(code)}`;
+    const link = `${location.origin}/${locale}/groups/join?code=${encodeURIComponent(code)}`;
     await navigator.clipboard.writeText(link);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
@@ -27,14 +30,14 @@ export function CopyInviteCode({ code }: { code: string }) {
       >
         {code}
         <span className="font-label text-xs uppercase text-muted-foreground">
-          {copiedCode ? "Скопировано!" : "Скопировать код"}
+          {copiedCode ? t("copied") : t("copyCode")}
         </span>
       </button>
       <button
         onClick={handleCopyLink}
         className="cursor-pointer border-2 border-border bg-card px-4 py-2 font-label text-xs uppercase text-foreground transition-colors hover:border-primary"
       >
-        {copiedLink ? "Скопировано!" : "Скопировать ссылку"}
+        {copiedLink ? t("copied") : t("copyLink")}
       </button>
     </div>
   );

@@ -30,12 +30,12 @@ function toLocalInputFromIso(iso: string): string {
 
 export function DateTimeLocalField({
   name = "starts_at",
-  label = "Дата и время",
+  label,
   defaultValueIso,
   required = true,
 }: {
   name?: string;
-  label?: string;
+  label: string;
   defaultValueIso?: string;
   required?: boolean;
 }) {

@@ -1,11 +1,13 @@
 import { createClient } from "@/utils/supabase/server";
 import { getUser } from "@/utils/supabase/getUser";
 import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
+import { getTranslations, getLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { RouteMap } from "@/components/route-map";
 import { RideRsvpButtons } from "@/components/ride-rsvp-buttons";
 import { RideOwnerActions } from "@/components/ride-owner-actions";
 import { getViewerTimezone } from "@/utils/get-viewer-timezone";
+import { toIntlLocale } from "@/utils/intl-locale";
 
 type RsvpRow = {
   status: "going" | "maybe" | "not_going";
@@ -20,15 +22,17 @@ export default async function RidePage({
 }) {
   const { id } = await params;
   const user = await getUser();
-  if (!user) redirect(`/login?next=/rides/${id}`);
+  const locale = await getLocale();
+  if (!user) redirect(`/${locale}/login?next=/rides/${id}`);
 
+  const t = await getTranslations("RideDetail");
   const supabase = await createClient();
   const viewerTimezone = await getViewerTimezone();
 
   // Часовой пояс зрителя (см. TimezoneSync/getViewerTimezone) — без него
   // это форматирование считалось бы в поясе рантайма сервера (на Vercel —
   // всегда UTC), а не в реальном поясе того, кто смотрит на дату.
-  const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
+  const dateFormatter = new Intl.DateTimeFormat(toIntlLocale(locale), {
     weekday: "short",
     day: "numeric",
     month: "long",
@@ -90,8 +94,10 @@ export default async function RidePage({
 
       {(ride.distance_km || ride.elevation_gain_m) && (
         <div className="mt-4 flex gap-4 font-label text-xs uppercase text-muted-foreground">
-          {ride.distance_km && <span>{ride.distance_km} км</span>}
-          {ride.elevation_gain_m && <span>+{ride.elevation_gain_m} м</span>}
+          {ride.distance_km && <span>{t("distanceKm", { value: ride.distance_km })}</span>}
+          {ride.elevation_gain_m && (
+            <span>{t("elevationM", { value: ride.elevation_gain_m })}</span>
+          )}
         </div>
       )}
 
@@ -108,20 +114,20 @@ export default async function RidePage({
           rel="noopener noreferrer"
           className="mt-4 inline-block border-2 border-border bg-card px-4 py-2 font-label text-xs uppercase text-foreground transition-colors hover:border-primary"
         >
-          Открыть маршрут ↗
+          {t("openRoute")}
         </a>
       )}
 
       <div className="mt-8">
         <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
-          Твой ответ
+          {t("yourResponse")}
         </p>
         <RideRsvpButtons rideId={ride.id} currentStatus={myRsvp?.status ?? null} />
       </div>
 
-      <RsvpRoster title="Идут" attendees={grouped.going} accentClassName="border-l-emerald-500" />
-      <RsvpRoster title="Под вопросом" attendees={grouped.maybe} accentClassName="border-l-amber-500" />
-      <RsvpRoster title="Не идут" attendees={grouped.not_going} accentClassName="border-l-red-500" />
+      <RsvpRoster title={t("going")} attendees={grouped.going} accentClassName="border-l-emerald-500" nobodyYet={t("nobodyYet")} />
+      <RsvpRoster title={t("maybe")} attendees={grouped.maybe} accentClassName="border-l-amber-500" nobodyYet={t("nobodyYet")} />
+      <RsvpRoster title={t("notGoing")} attendees={grouped.not_going} accentClassName="border-l-red-500" nobodyYet={t("nobodyYet")} />
     </div>
   );
 }
@@ -130,10 +136,12 @@ function RsvpRoster({
   title,
   attendees,
   accentClassName,
+  nobodyYet,
 }: {
   title: string;
   attendees: RsvpRow[];
   accentClassName: string;
+  nobodyYet: string;
 }) {
   return (
     <div className="mt-8">
@@ -162,7 +170,7 @@ function RsvpRoster({
           ) : null
         )}
         {attendees.length === 0 && (
-          <p className="text-sm text-muted-foreground">Пока никто не отметился.</p>
+          <p className="text-sm text-muted-foreground">{nobodyYet}</p>
         )}
       </div>
     </div>

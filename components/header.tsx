@@ -1,10 +1,13 @@
 import { getUser } from "@/utils/supabase/getUser";
 import { SignInButton } from "./signInButton";
 import { User } from "./user";
-import Link from "next/link";
+import { LocaleSwitcher } from "./locale-switcher";
+import { Link } from "@/i18n/navigation";
+import { getTranslations } from "next-intl/server";
 
 export const Header = async () => {
   const user = await getUser();
+  const t = await getTranslations("Header");
 
   return (
     <header className="sticky top-0 right-0 left-0 z-50 border-b-2 bg-background">
@@ -15,7 +18,7 @@ export const Header = async () => {
             href="/"
             className="font-display text-xs text-foreground hover:text-primary"
           >
-            RIDE CREW
+            {t("brand")}
           </Link>
         </div>
 
@@ -24,11 +27,12 @@ export const Header = async () => {
             href="/groups"
             className="font-label text-sm uppercase text-muted-foreground hover:text-foreground"
           >
-            Groups
+            {t("groups")}
           </Link>
         </div>
 
         <div className="flex items-center gap-3">
+          <LocaleSwitcher />
           {user ? <User user={user} /> : <SignInButton />}
         </div>
       </div>

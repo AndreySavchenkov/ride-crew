@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { NextIntlClientProvider } from "next-intl";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -7,6 +8,7 @@ import { fontBody, fontDisplay, fontLabel } from "./fonts";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TimezoneSync } from "@/components/timezone-sync";
+import { routing } from "@/i18n/routing";
 
 export const viewport: Viewport = {
   themeColor: "#0f1013",
@@ -23,10 +25,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({
+  children,
+  params,
+}: LayoutProps<"/[locale]">) {
+  const { locale } = await params;
+
   return (
     <html
-      lang="en"
+      lang={locale}
       className={cn(
         "dark",
         "h-full",
@@ -37,12 +48,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <body className="flex min-h-full flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <Analytics />
-        <SpeedInsights />
-        <TimezoneSync />
+        <NextIntlClientProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <Analytics />
+          <SpeedInsights />
+          <TimezoneSync />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

@@ -1,11 +1,13 @@
 import { createClient } from "@/utils/supabase/server";
 import { getUser } from "@/utils/supabase/getUser";
 import { redirect, notFound } from "next/navigation";
-import Link from "next/link";
-import {CopyInviteCode} from "./copyInviteCode"
+import { getTranslations, getLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+import { CopyInviteCode } from "@/app/groups/[id]/copyInviteCode";
 import { LeaveGroupButton } from "@/components/leave-group-button";
 import { RemoveMemberButton } from "@/components/remove-member-button";
 import { getViewerTimezone } from "@/utils/get-viewer-timezone";
+import { toIntlLocale } from "@/utils/intl-locale";
 
 type MemberRow = {
   role: string;
@@ -19,8 +21,10 @@ export default async function GroupPage({
 }) {
   const { id } = await params;
   const user = await getUser();
-  if (!user) redirect(`/login?next=/groups/${id}`);
+  const locale = await getLocale();
+  if (!user) redirect(`/${locale}/login?next=/groups/${id}`);
 
+  const t = await getTranslations("GroupDetail");
   const supabase = await createClient();
 
   const { data: group } = await supabase
@@ -62,8 +66,8 @@ export default async function GroupPage({
     .order("starts_at", { ascending: false });
 
   const viewerTimezone = await getViewerTimezone();
-  // См. комментарий про часовой пояс зрителя в app/rides/[id]/page.tsx.
-  const rideDateFormatter = new Intl.DateTimeFormat("ru-RU", {
+  // См. комментарий про часовой пояс зрителя в app/[locale]/rides/[id]/page.tsx.
+  const rideDateFormatter = new Intl.DateTimeFormat(toIntlLocale(locale), {
     day: "numeric",
     month: "short",
     hour: "2-digit",
@@ -86,7 +90,7 @@ export default async function GroupPage({
       {isOwner && (
         <div className="mt-6 border-2 border-border bg-card p-4">
           <p className="mb-2 font-label text-xs uppercase text-muted-foreground">
-            Код приглашения
+            {t("inviteCode")}
           </p>
           <CopyInviteCode code={group.invite_code} />
         </div>
@@ -95,20 +99,18 @@ export default async function GroupPage({
       <div className="mt-8">
         <div className="mb-4 flex items-center justify-between">
           <p className="font-label text-xs uppercase text-muted-foreground">
-            Ближайшие покатушки
+            {t("upcomingRides")}
           </p>
           <Link
             href={`/groups/${id}/rides/new`}
             className="font-label text-xs uppercase text-primary hover:underline"
           >
-            + Создать покатушку
+            {t("createRide")}
           </Link>
         </div>
 
         {!upcomingRides?.length ? (
-          <p className="text-sm text-muted-foreground">
-            Пока ничего не запланировано.
-          </p>
+          <p className="text-sm text-muted-foreground">{t("nothingPlanned")}</p>
         ) : (
           <div className="flex flex-col gap-3">
             {upcomingRides.map((ride) => (
@@ -121,13 +123,13 @@ export default async function GroupPage({
                   {ride.title}
                   {isNewRide(ride) && (
                     <span className="border border-primary/40 bg-primary/15 px-2 py-0.5 font-label text-[0.65rem] uppercase text-primary">
-                      Новое
+                      {t("newBadge")}
                     </span>
                   )}
                 </span>
                 <span className="font-label text-xs uppercase text-muted-foreground">
                   {rideDateFormatter.format(new Date(ride.starts_at))}
-                  {ride.distance_km && ` · ${ride.distance_km} км`}
+                  {ride.distance_km && ` · ${t("distanceKm", { value: ride.distance_km })}`}
                 </span>
               </Link>
             ))}
@@ -137,7 +139,7 @@ export default async function GroupPage({
         {pastRides && pastRides.length > 0 && (
           <details className="mt-4">
             <summary className="cursor-pointer font-label text-xs uppercase text-muted-foreground hover:text-primary">
-              Архив ({pastRides.length})
+              {t("archive", { count: pastRides.length })}
             </summary>
             <div className="mt-3 flex flex-col gap-3">
               {pastRides.map((ride) => (
@@ -159,7 +161,7 @@ export default async function GroupPage({
 
       <div className="mt-8">
         <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
-          Участники ({members?.length ?? 0})
+          {t("members", { count: members?.length ?? 0 })}
         </p>
         <div className="flex flex-col gap-3">
           {members?.map((m) =>
@@ -181,7 +183,7 @@ export default async function GroupPage({
                 <span className="text-foreground">{m.profiles.full_name}</span>
                 {m.role === "owner" ? (
                   <span className="ml-auto border border-primary/40 bg-primary/15 px-2.5 py-0.5 font-label text-xs uppercase text-primary">
-                    Владелец
+                    {t("owner")}
                   </span>
                 ) : (
                   isOwner && (

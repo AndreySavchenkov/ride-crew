@@ -1,0 +1,168 @@
+{
+  "Header": {
+    "brand": "RIDE CREW",
+    "groups": "Grupy"
+  },
+  "Footer": {
+    "rights": "© {year} Ride Crew",
+    "instagram": "Instagram"
+  },
+  "LanguageSwitcher": {
+    "label": "Język"
+  },
+  "Home": {
+    "eyebrow": "Ride Crew",
+    "title": "Organizuj wspólne wyjazdy",
+    "subtitle": "Twórz grupy, zapraszaj znajomych, planujcie wyjazdy razem — bez chaosu w czatach i tabelkach.",
+    "cta": "Zaczynajmy"
+  },
+  "NotFound": {
+    "eyebrow": "404",
+    "title": "Strona nie znaleziona",
+    "description": "Taka strona nie istnieje — może wyjazd został odwołany albo link był błędny.",
+    "myGroups": "Moje grupy",
+    "home": "Strona główna"
+  },
+  "ErrorPage": {
+    "eyebrow": "Ups",
+    "title": "Coś poszło nie tak",
+    "defaultMessage": "Nie udało się wykonać żądania. Spróbuj ponownie.",
+    "retry": "Spróbuj ponownie",
+    "home": "Strona główna"
+  },
+  "Login": {
+    "eyebrow": "Ride Crew",
+    "heading": "Zaloguj się, aby kontynuować",
+    "subtitle": "Zaloguj się przez Google, aby zobaczyć grupy i wyjazdy."
+  },
+  "Groups": {
+    "title": "Moje grupy",
+    "joinByCode": "Dołącz kodem",
+    "createGroup": "+ Utwórz grupę",
+    "empty": "Nie masz jeszcze żadnych grup. Utwórz własną lub dołącz do istniejącej za pomocą kodu zaproszenia.",
+    "newRides": "{count} nowych",
+    "members": "{count, plural, one {# uczestnik} few {# uczestników} other {# uczestników}}"
+  },
+  "NewGroup": {
+    "title": "Utwórz grupę",
+    "nameLabel": "Nazwa",
+    "namePlaceholder": "Poznań MTB Crew",
+    "descriptionLabel": "Opis (opcjonalnie)",
+    "descriptionPlaceholder": "Ekipa na wyjazdy po szlakach Zielonki",
+    "submit": "Utwórz grupę"
+  },
+  "JoinGroup": {
+    "title": "Dołącz do grupy",
+    "subtitle": "Wpisz kod zaproszenia, który przysłał organizator grupy.",
+    "codeLabel": "Kod zaproszenia",
+    "codePlaceholder": "Np. ABCD12",
+    "submit": "Dołącz"
+  },
+  "GroupDetail": {
+    "inviteCode": "Kod zaproszenia",
+    "upcomingRides": "Najbliższe wyjazdy",
+    "createRide": "+ Utwórz wyjazd",
+    "nothingPlanned": "Nic jeszcze nie zaplanowano.",
+    "newBadge": "Nowe",
+    "archive": "Archiwum ({count})",
+    "members": "Uczestnicy ({count})",
+    "owner": "Właściciel",
+    "distanceKm": "{value} km"
+  },
+  "CopyInviteCode": {
+    "copied": "Skopiowano!",
+    "copyCode": "Kopiuj kod",
+    "copyLink": "Kopiuj link"
+  },
+  "LeaveGroupButton": {
+    "confirm": "Opuścić tę grupę? Aby wrócić, trzeba będzie dołączyć ponownie za pomocą kodu zaproszenia.",
+    "leaving": "Opuszczanie…",
+    "leave": "Opuść grupę"
+  },
+  "RemoveMemberButton": {
+    "confirm": "Usunąć {name} z grupy?",
+    "removing": "Usuwanie…",
+    "remove": "Usuń"
+  },
+  "RideForm": {
+    "titleLabel": "Nazwa",
+    "titlePlaceholder": "Wieczorny wyjazd po szlakach",
+    "dateTimeLabel": "Data i godzina",
+    "locationLabel": "Miejsce startu (opcjonalnie)",
+    "locationPlaceholder": "Parking przy Zielonce",
+    "routeUrlLabel": "Link do Strava/Komoot (opcjonalnie)",
+    "routeUrlPlaceholder": "https://www.strava.com/routes/...",
+    "descriptionLabel": "Opis (opcjonalnie)",
+    "descriptionPlaceholder": "Spokojne tempo, czekamy na maruderów"
+  },
+  "NewRide": {
+    "title": "Utwórz wyjazd",
+    "submit": "Utwórz wyjazd"
+  },
+  "EditRide": {
+    "title": "Edytuj wyjazd",
+    "submit": "Zapisz zmiany"
+  },
+  "GpxUpload": {
+    "label": "Trasa (GPX, opcjonalnie)",
+    "error": "Nie udało się odczytać pliku GPX. Sprawdź, czy to trasa lub ślad.",
+    "currentRoute": "Obecna trasa. Wgraj nowy plik, aby ją zastąpić.",
+    "distanceKm": "{value} km",
+    "elevationM": "+{value} m"
+  },
+  "RideDetail": {
+    "openRoute": "Otwórz trasę ↗",
+    "yourResponse": "Twoja odpowiedź",
+    "going": "Jadą",
+    "maybe": "Może",
+    "notGoing": "Nie jadą",
+    "rosterCount": "{title} ({count})",
+    "nobodyYet": "Nikt jeszcze się nie odezwał.",
+    "distanceKm": "{value} km",
+    "elevationM": "+{value} m"
+  },
+  "RideOwnerActions": {
+    "edit": "Edytuj",
+    "cancelConfirm": "Odwołać ten wyjazd? Tej operacji nie można cofnąć, a odpowiedzi uczestników też zostaną usunięte.",
+    "cancelling": "Odwoływanie…",
+    "cancel": "Odwołaj wyjazd"
+  },
+  "RideRsvp": {
+    "going": "Jadę",
+    "maybe": "Może",
+    "notGoing": "Nie jadę"
+  },
+  "SignIn": {
+    "continueWithGoogle": "Kontynuuj z Google"
+  },
+  "SignOut": {
+    "signOut": "Wyloguj się"
+  },
+  "User": {
+    "defaultName": "Użytkownik"
+  },
+  "GroupActions": {
+    "nameRequired": "Nazwa grupy jest wymagana",
+    "createFailed": "Nie udało się utworzyć grupy. Spróbuj ponownie",
+    "ownerAddFailed": "Grupa została utworzona, ale nie udało się dodać Cię jako właściciela",
+    "codeRequired": "Wpisz kod zaproszenia",
+    "codeNotFound": "Taki kod zaproszenia nie istnieje. Sprawdź go i spróbuj ponownie",
+    "joinFailed": "Nie udało się dołączyć do grupy. Spróbuj ponownie",
+    "ownerCantLeave": "Właściciel nie może opuścić własnej grupy",
+    "leaveFailed": "Nie udało się opuścić grupy. Spróbuj ponownie",
+    "onlyOwnerCanRemove": "Tylko właściciel grupy może usuwać uczestników",
+    "removeFailed": "Nie udało się usunąć uczestnika. Spróbuj ponownie"
+  },
+  "RideActions": {
+    "groupRequired": "Nie wskazano grupy",
+    "titleRequired": "Nazwa wyjazdu jest wymagana",
+    "dateRequired": "Podaj datę i godzinę wyjazdu",
+    "createFailed": "Nie udało się utworzyć wyjazdu. Spróbuj ponownie",
+    "rideRequired": "Nie wskazano wyjazdu",
+    "onlyOwnerCanEdit": "Tylko autor może edytować ten wyjazd",
+    "updateFailed": "Nie udało się zapisać zmian. Spróbuj ponownie",
+    "onlyOwnerCanCancel": "Tylko autor może odwołać ten wyjazd",
+    "cancelFailed": "Nie udało się odwołać wyjazdu. Spróbuj ponownie",
+    "rsvpFailed": "Nie udało się zapisać odpowiedzi"
+  }
+}

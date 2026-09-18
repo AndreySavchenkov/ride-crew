@@ -1,7 +1,9 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { createClient } from "@/utils/supabase/client";
 
 export function SignInButton({ next }: { next?: string }) {
+  const t = useTranslations("SignIn");
   const supabase = createClient();
 
   const handleSignIn = async () => {
@@ -39,7 +41,7 @@ export function SignInButton({ next }: { next?: string }) {
           d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.97l2.99 2.34C4.66 5.17 6.65 3.58 9 3.58z"
         />
       </svg>
-      Continue with Google
+      {t("continueWithGoogle")}
     </button>
   );
 }

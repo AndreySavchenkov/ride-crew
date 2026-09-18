@@ -3,23 +3,28 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { getTranslations } from "next-intl/server";
+import { getViewerLocale } from "@/utils/get-viewer-locale";
 
 export async function createGroup(formData: FormData) {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect("/login?next=/groups/new");
+    redirect(`/${locale}/login?next=/groups/new`);
   }
+
+  const t = await getTranslations({ locale, namespace: "GroupActions" });
 
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
 
   if (!name?.trim()) {
-    throw new Error("Название группы обязательно");
+    throw new Error(t("nameRequired"));
   }
 
   const { data: group, error: groupError } = await supabase
@@ -34,7 +39,7 @@ export async function createGroup(formData: FormData) {
 
   if (groupError || !group) {
     console.error("Supabase insert error:", groupError);
-    throw new Error("Не удалось создать группу. Попробуй ещё раз");
+    throw new Error(t("createFailed"));
   }
 
   const { error: memberError } = await supabase.from("group_members").insert({
@@ -45,15 +50,16 @@ export async function createGroup(formData: FormData) {
 
   if (memberError) {
     console.error("Supabase insert error:", memberError);
-    throw new Error("Группа создана, но не удалось добавить тебя как владельца");
+    throw new Error(t("ownerAddFailed"));
   }
 
   revalidatePath("/groups");
-  redirect(`/groups/${group.id}`);
+  redirect(`/${locale}/groups/${group.id}`);
 }
 
 export async function joinGroup(formData: FormData) {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
@@ -63,11 +69,13 @@ export async function joinGroup(formData: FormData) {
 
   if (!user) {
     const next = code ? `/groups/join?code=${encodeURIComponent(code)}` : "/groups/join";
-    redirect(`/login?next=${encodeURIComponent(next)}`);
+    redirect(`/${locale}/login?next=${encodeURIComponent(next)}`);
   }
 
+  const t = await getTranslations({ locale, namespace: "GroupActions" });
+
   if (!code) {
-    throw new Error("Введи код приглашения");
+    throw new Error(t("codeRequired"));
   }
 
   const { data, error } = await supabase
@@ -77,52 +85,58 @@ export async function joinGroup(formData: FormData) {
   if (error || !data) {
     console.error("Supabase rpc error:", error);
     if (error?.message?.includes("invalid_invite_code")) {
-      throw new Error("Такого кода приглашения не существует. Проверь и попробуй ещё раз");
+      throw new Error(t("codeNotFound"));
     }
-    throw new Error("Не удалось вступить в группу. Попробуй ещё раз");
+    throw new Error(t("joinFailed"));
   }
 
   const { group_id } = data as { group_id: string; group_name: string };
 
   revalidatePath("/groups");
-  redirect(`/groups/${group_id}`);
+  redirect(`/${locale}/groups/${group_id}`);
 }
 
 export async function leaveGroup(groupId: string) {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?next=/groups/${groupId}`);
+    redirect(`/${locale}/login?next=/groups/${groupId}`);
   }
+
+  const t = await getTranslations({ locale, namespace: "GroupActions" });
 
   const { error } = await supabase.rpc("leave_group", { p_group_id: groupId });
 
   if (error) {
     console.error("Supabase rpc error:", error);
     if (error.message?.includes("owner_cannot_leave")) {
-      throw new Error("Владелец не может выйти из своей группы");
+      throw new Error(t("ownerCantLeave"));
     }
-    throw new Error("Не удалось выйти из группы. Попробуй ещё раз");
+    throw new Error(t("leaveFailed"));
   }
 
   revalidatePath("/groups");
-  redirect("/groups");
+  redirect(`/${locale}/groups`);
 }
 
 export async function removeMember(groupId: string, userId: string) {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?next=/groups/${groupId}`);
+    redirect(`/${locale}/login?next=/groups/${groupId}`);
   }
+
+  const t = await getTranslations({ locale, namespace: "GroupActions" });
 
   const { error } = await supabase.rpc("remove_group_member", {
     p_group_id: groupId,
@@ -132,9 +146,9 @@ export async function removeMember(groupId: string, userId: string) {
   if (error) {
     console.error("Supabase rpc error:", error);
     if (error.message?.includes("not_authorized")) {
-      throw new Error("Только владелец группы может убирать участников");
+      throw new Error(t("onlyOwnerCanRemove"));
     }
-    throw new Error("Не удалось убрать участника. Попробуй ещё раз");
+    throw new Error(t("removeFailed"));
   }
 
   revalidatePath(`/groups/${groupId}`);

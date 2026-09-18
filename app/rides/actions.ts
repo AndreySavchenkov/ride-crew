@@ -3,9 +3,12 @@
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { getTranslations } from "next-intl/server";
+import { getViewerLocale } from "@/utils/get-viewer-locale";
 
 export async function createRide(formData: FormData) {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
@@ -14,8 +17,11 @@ export async function createRide(formData: FormData) {
   const groupId = formData.get("group_id") as string;
 
   if (!user) {
-    redirect(`/login?next=/groups/${groupId}/rides/new`);
+    redirect(`/${locale}/login?next=/groups/${groupId}/rides/new`);
   }
+
+  const t = await getTranslations({ locale, namespace: "RideActions" });
+
   const title = formData.get("title") as string;
   const startsAt = formData.get("starts_at") as string;
   const location = formData.get("location") as string;
@@ -26,13 +32,13 @@ export async function createRide(formData: FormData) {
   const elevationGainMRaw = formData.get("elevation_gain_m") as string;
 
   if (!groupId) {
-    throw new Error("Не указана группа");
+    throw new Error(t("groupRequired"));
   }
   if (!title?.trim()) {
-    throw new Error("Название покатушки обязательно");
+    throw new Error(t("titleRequired"));
   }
   if (!startsAt) {
-    throw new Error("Укажи дату и время покатушки");
+    throw new Error(t("dateRequired"));
   }
 
   let routePoints: [number, number][] | null = null;
@@ -63,15 +69,16 @@ export async function createRide(formData: FormData) {
 
   if (rideError || !ride) {
     console.error("Supabase insert error:", rideError);
-    throw new Error("Не удалось создать покатушку. Попробуй ещё раз");
+    throw new Error(t("createFailed"));
   }
 
   revalidatePath(`/groups/${groupId}`);
-  redirect(`/rides/${ride.id}`);
+  redirect(`/${locale}/rides/${ride.id}`);
 }
 
 export async function updateRide(formData: FormData) {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
@@ -80,8 +87,10 @@ export async function updateRide(formData: FormData) {
   const rideId = formData.get("ride_id") as string;
 
   if (!user) {
-    redirect(`/login?next=/rides/${rideId}/edit`);
+    redirect(`/${locale}/login?next=/rides/${rideId}/edit`);
   }
+
+  const t = await getTranslations({ locale, namespace: "RideActions" });
 
   const title = formData.get("title") as string;
   const startsAt = formData.get("starts_at") as string;
@@ -93,13 +102,13 @@ export async function updateRide(formData: FormData) {
   const elevationGainMRaw = formData.get("elevation_gain_m") as string;
 
   if (!rideId) {
-    throw new Error("Не указана покатушка");
+    throw new Error(t("rideRequired"));
   }
   if (!title?.trim()) {
-    throw new Error("Название покатушки обязательно");
+    throw new Error(t("titleRequired"));
   }
   if (!startsAt) {
-    throw new Error("Укажи дату и время покатушки");
+    throw new Error(t("dateRequired"));
   }
 
   let routePoints: [number, number][] | null = null;
@@ -126,49 +135,53 @@ export async function updateRide(formData: FormData) {
   if (error) {
     console.error("Supabase rpc error:", error);
     if (error.message?.includes("not_authorized")) {
-      throw new Error("Только автор может редактировать эту покатушку");
+      throw new Error(t("onlyOwnerCanEdit"));
     }
-    throw new Error("Не удалось сохранить изменения. Попробуй ещё раз");
+    throw new Error(t("updateFailed"));
   }
 
   revalidatePath(`/rides/${rideId}`);
-  redirect(`/rides/${rideId}`);
+  redirect(`/${locale}/rides/${rideId}`);
 }
 
 export async function cancelRide(rideId: string, groupId: string) {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?next=/rides/${rideId}`);
+    redirect(`/${locale}/login?next=/rides/${rideId}`);
   }
+
+  const t = await getTranslations({ locale, namespace: "RideActions" });
 
   const { error } = await supabase.rpc("cancel_ride", { p_ride_id: rideId });
 
   if (error) {
     console.error("Supabase rpc error:", error);
     if (error.message?.includes("not_authorized")) {
-      throw new Error("Только автор может отменить эту покатушку");
+      throw new Error(t("onlyOwnerCanCancel"));
     }
-    throw new Error("Не удалось отменить покатушку. Попробуй ещё раз");
+    throw new Error(t("cancelFailed"));
   }
 
   revalidatePath(`/groups/${groupId}`);
-  redirect(`/groups/${groupId}`);
+  redirect(`/${locale}/groups/${groupId}`);
 }
 
 export async function setRsvp(rideId: string, status: "going" | "maybe" | "not_going") {
   const supabase = await createClient();
+  const locale = await getViewerLocale();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?next=/rides/${rideId}`);
+    redirect(`/${locale}/login?next=/rides/${rideId}`);
   }
 
   const { error } = await supabase.from("ride_rsvps").upsert({
@@ -179,7 +192,8 @@ export async function setRsvp(rideId: string, status: "going" | "maybe" | "not_g
 
   if (error) {
     console.error("Supabase upsert error:", error);
-    throw new Error("Не удалось сохранить ответ");
+    const t = await getTranslations({ locale, namespace: "RideActions" });
+    throw new Error(t("rsvpFailed"));
   }
 
   revalidatePath(`/rides/${rideId}`);
