@@ -32,5 +32,9 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"],
+  // `auth` is excluded because app/auth/callback/route.ts lives outside
+  // app/[locale] on purpose — it's the fixed OAuth redirect target, and
+  // Google doesn't know about locales — so it must never get a locale
+  // prefix added/required by the i18n routing below.
+  matcher: ["/((?!api|_next|_vercel|auth|.*\\..*).*)"],
 };
