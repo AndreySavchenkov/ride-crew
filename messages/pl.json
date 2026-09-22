@@ -84,6 +84,11 @@
     "removing": "Usuwanie…",
     "remove": "Usuń"
   },
+  "DeleteGroupButton": {
+    "confirm": "Usunąć tę grupę? Razem z nią zostaną usunięte jej wyjazdy, RSVP i komentarze. Tej operacji nie można cofnąć.",
+    "deleting": "Usuwanie…",
+    "delete": "Usuń grupę"
+  },
   "RideForm": {
     "titleLabel": "Nazwa",
     "titlePlaceholder": "Wieczorny wyjazd po szlakach",
@@ -151,7 +156,9 @@
     "ownerCantLeave": "Właściciel nie może opuścić własnej grupy",
     "leaveFailed": "Nie udało się opuścić grupy. Spróbuj ponownie",
     "onlyOwnerCanRemove": "Tylko właściciel grupy może usuwać uczestników",
-    "removeFailed": "Nie udało się usunąć uczestnika. Spróbuj ponownie"
+    "removeFailed": "Nie udało się usunąć uczestnika. Spróbuj ponownie",
+    "onlyOwnerCanDelete": "Tylko właściciel grupy może usunąć grupę",
+    "deleteFailed": "Nie udało się usunąć grupy. Spróbuj ponownie"
   },
   "RideActions": {
     "groupRequired": "Nie wskazano grupy",

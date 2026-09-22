@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { CopyInviteCode } from "@/app/groups/[id]/copyInviteCode";
 import { LeaveGroupButton } from "@/components/leave-group-button";
 import { RemoveMemberButton } from "@/components/remove-member-button";
+import { DeleteGroupButton } from "@/components/delete-group-button";
 import { getViewerTimezone } from "@/utils/get-viewer-timezone";
 import { toIntlLocale } from "@/utils/intl-locale";
 
@@ -81,7 +82,11 @@ export default async function GroupPage({
     <div className="mx-auto max-w-2xl px-6 py-12">
       <div className="flex items-start justify-between gap-4">
         <h1 className="text-2xl text-foreground">{group.name}</h1>
-        {!isOwner && <LeaveGroupButton groupId={group.id} />}
+        {isOwner ? (
+          <DeleteGroupButton groupId={group.id} />
+        ) : (
+          <LeaveGroupButton groupId={group.id} />
+        )}
       </div>
       {group.description && (
         <p className="mt-2 text-muted-foreground">{group.description}</p>

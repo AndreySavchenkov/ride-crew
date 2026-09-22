@@ -84,6 +84,11 @@
     "removing": "Removing…",
     "remove": "Remove"
   },
+  "DeleteGroupButton": {
+    "confirm": "Delete this group? Its rides, RSVPs and comments will be deleted too. This can't be undone.",
+    "deleting": "Deleting…",
+    "delete": "Delete group"
+  },
   "RideForm": {
     "titleLabel": "Title",
     "titlePlaceholder": "Evening trail ride",
@@ -151,7 +156,9 @@
     "ownerCantLeave": "The owner can't leave their own group",
     "leaveFailed": "Couldn't leave the group. Try again",
     "onlyOwnerCanRemove": "Only the group owner can remove members",
-    "removeFailed": "Couldn't remove the member. Try again"
+    "removeFailed": "Couldn't remove the member. Try again",
+    "onlyOwnerCanDelete": "Only the group owner can delete the group",
+    "deleteFailed": "Couldn't delete the group. Try again"
   },
   "RideActions": {
     "groupRequired": "Group not specified",

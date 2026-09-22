@@ -153,3 +153,31 @@ export async function removeMember(groupId: string, userId: string) {
 
   revalidatePath(`/groups/${groupId}`);
 }
+
+export async function deleteGroup(groupId: string) {
+  const supabase = await createClient();
+  const locale = await getViewerLocale();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect(`/${locale}/login?next=/groups/${groupId}`);
+  }
+
+  const t = await getTranslations({ locale, namespace: "GroupActions" });
+
+  const { error } = await supabase.rpc("delete_group", { p_group_id: groupId });
+
+  if (error) {
+    console.error("Supabase rpc error:", error);
+    if (error.message?.includes("not_authorized")) {
+      throw new Error(t("onlyOwnerCanDelete"));
+    }
+    throw new Error(t("deleteFailed"));
+  }
+
+  revalidatePath("/groups");
+  redirect(`/${locale}/groups`);
+}
