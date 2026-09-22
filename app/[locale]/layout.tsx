@@ -18,6 +18,8 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: { default: "Ride Crew", template: "%s · Ride Crew" },
   description: "ride with friends",
+  icons: { apple: "/pwa-icon/180.png" },
+  appleWebApp: { capable: true, title: "Ride Crew", statusBarStyle: "black" },
   openGraph: {
     title: "Ride Crew",
     description: "ride with friends",
