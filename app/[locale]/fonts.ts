@@ -1,32 +1,36 @@
-import { DotGothic16, Press_Start_2P, Silkscreen } from "next/font/google";
+import { Inter, Press_Start_2P } from "next/font/google";
 
 /**
- * Retro / 8-bit / 90s-anime type system.
+ * Retro accent (logo/hero) over a modern, legible UI face.
  *
- * - `fontBody`    — DotGothic16: dot-matrix gothic, readable down to ~14px.
+ * - `fontBody`    — Inter: modern UI face, readable at small sizes across
+ *                   latin, latin-ext (Polish diacritics) and cyrillic (Russian).
  *                   Used for body copy and headings (via --font-sans / --font-heading).
  * - `fontDisplay` — Press Start 2P: NES pixel face. Large, short text only
  *                   (logo, hero, big numbers). Needs generous line-height + tracking.
- * - `fontLabel`   — Silkscreen: tidy pixel caps for badges, tags, small buttons.
+ * - `fontLabel`   — Inter Semi/Bold: badges, tags, small buttons. Was Silkscreen,
+ *                   then Pixelify Sans, but pixel faces read poorly at these small
+ *                   uppercase sizes — plain bold Inter is clearer and still stands
+ *                   apart from body copy via weight + letter-spacing (see
+ *                   `.font-label` in globals.css).
  */
 
-export const fontBody = DotGothic16({
-  weight: "400",
-  subsets: ["latin", "cyrillic"],
+export const fontBody = Inter({
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
   variable: "--font-body",
 });
 
 export const fontDisplay = Press_Start_2P({
   weight: "400",
-  subsets: ["latin", "cyrillic"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
   variable: "--font-display",
 });
 
-export const fontLabel = Silkscreen({
-  weight: ["400", "700"],
-  subsets: ["latin"],
+export const fontLabel = Inter({
+  weight: ["600", "700"],
+  subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
   variable: "--font-label",
 });
