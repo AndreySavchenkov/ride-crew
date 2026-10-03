@@ -1,8 +1,18 @@
 "use client";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/utils/supabase/client";
+import { LiquidButton } from "@/components/plasma";
 
-export function SignInButton({ next }: { next?: string }) {
+// "liquid" — самостоятельная Plasma-кнопка (страница логина); "inline" —
+// стеклянная CSS-кнопка для мест внутри другой панели (шапка), где вторая
+// поверхность слилась бы с первой.
+export function SignInButton({
+  next,
+  variant = "liquid",
+}: {
+  next?: string;
+  variant?: "liquid" | "inline";
+}) {
   const t = useTranslations("SignIn");
   const supabase = createClient();
 
@@ -18,11 +28,8 @@ export function SignInButton({ next }: { next?: string }) {
     });
   };
 
-  return (
-    <button
-      onClick={handleSignIn}
-      className="flex cursor-pointer items-center gap-2.5 border-2 border-primary bg-primary px-5 py-2.5 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-    >
+  const content = (
+    <>
       <svg width="18" height="18" viewBox="0 0 18 18">
         <path
           fill="#4285F4"
@@ -42,6 +49,16 @@ export function SignInButton({ next }: { next?: string }) {
         />
       </svg>
       {t("continueWithGoogle")}
-    </button>
+    </>
   );
+
+  if (variant === "inline") {
+    return (
+      <button onClick={handleSignIn} className="glass-button">
+        {content}
+      </button>
+    );
+  }
+
+  return <LiquidButton onClick={handleSignIn}>{content}</LiquidButton>;
 }

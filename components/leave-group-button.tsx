@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { useTranslations } from "next-intl";
+import { LiquidButton } from "@/components/plasma";
 import { leaveGroup } from "@/app/groups/actions";
 
 export function LeaveGroupButton({ groupId }: { groupId: string }) {
@@ -16,12 +17,15 @@ export function LeaveGroupButton({ groupId }: { groupId: string }) {
   };
 
   return (
-    <button
+    <LiquidButton
+      tint="destructive"
+      strength={0.35}
+      size="sm"
       onClick={handleLeave}
       disabled={isPending}
-      className="cursor-pointer border-2 border-destructive/40 px-4 py-2 font-label text-xs uppercase text-destructive transition-colors hover:border-destructive hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-50"
+      className="shrink-0"
     >
       {isPending ? t("leaving") : t("leave")}
-    </button>
+    </LiquidButton>
   );
 }

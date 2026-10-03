@@ -67,7 +67,7 @@ export function GpxUploadField({
         type="file"
         accept=".gpx"
         onChange={(e) => handleFile(e.target.files?.[0])}
-        className="border-2 border-border bg-card px-4 py-2.5 text-foreground file:mr-3 file:border-2 file:border-primary file:bg-primary file:px-3 file:py-1.5 file:font-label file:text-xs file:uppercase file:text-primary-foreground"
+        className="glass-field file:mr-3 file:cursor-pointer file:rounded-full file:border-0 file:bg-primary/60 file:px-3 file:py-1.5 file:font-label file:text-xs file:uppercase file:text-primary-foreground"
       />
 
       {error && <p className="text-sm text-destructive">{error}</p>}

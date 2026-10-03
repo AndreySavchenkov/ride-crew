@@ -9,6 +9,7 @@ import { RemoveMemberButton } from "@/components/remove-member-button";
 import { DeleteGroupButton } from "@/components/delete-group-button";
 import { getViewerTimezone } from "@/utils/get-viewer-timezone";
 import { toIntlLocale } from "@/utils/intl-locale";
+import { LiquidLink, Panel } from "@/components/plasma";
 
 type MemberRow = {
   role: string;
@@ -80,7 +81,7 @@ export default async function GroupPage({
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex items-start justify-between gap-6">
         <h1 className="text-2xl text-foreground">{group.name}</h1>
         {isOwner ? (
           <DeleteGroupButton groupId={group.id} />
@@ -93,74 +94,71 @@ export default async function GroupPage({
       )}
 
       {isOwner && (
-        <div className="mt-6 border-2 border-border bg-card p-4">
-          <p className="mb-2 font-label text-xs uppercase text-muted-foreground">
+        <Panel className="mt-8 p-4">
+          <p className="mb-3 font-label text-xs uppercase text-muted-foreground">
             {t("inviteCode")}
           </p>
           <CopyInviteCode code={group.invite_code} />
-        </div>
+        </Panel>
       )}
 
       <div className="mt-8">
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-4 flex items-center justify-between gap-6">
           <p className="font-label text-xs uppercase text-muted-foreground">
             {t("upcomingRides")}
           </p>
-          <Link
-            href={`/groups/${id}/rides/new`}
-            className="font-label text-xs uppercase text-primary hover:underline"
-          >
+          <LiquidLink href={`/groups/${id}/rides/new`} size="sm">
             {t("createRide")}
-          </Link>
+          </LiquidLink>
         </div>
 
         {!upcomingRides?.length ? (
           <p className="text-sm text-muted-foreground">{t("nothingPlanned")}</p>
         ) : (
-          <div className="flex flex-col gap-3">
+          <Panel className="flex flex-col p-2">
             {upcomingRides.map((ride) => (
               <Link
                 key={ride.id}
                 href={`/rides/${ride.id}`}
-                className="flex items-center justify-between border-2 border-border bg-card p-4 transition-colors hover:border-primary"
+                className="glass-row glass-row-link justify-between"
               >
                 <span className="flex items-center gap-2 text-foreground">
                   {ride.title}
                   {isNewRide(ride) && (
-                    <span className="border border-primary/40 bg-primary/15 px-2 py-0.5 font-label text-[0.65rem] uppercase text-primary">
-                      {t("newBadge")}
-                    </span>
+                    <span className="glass-badge">{t("newBadge")}</span>
                   )}
                 </span>
-                <span className="font-label text-xs uppercase text-muted-foreground">
+                <span className="text-right font-label text-xs uppercase text-muted-foreground">
                   {rideDateFormatter.format(new Date(ride.starts_at))}
                   {ride.distance_km && ` · ${t("distanceKm", { value: ride.distance_km })}`}
                 </span>
               </Link>
             ))}
-          </div>
+          </Panel>
         )}
 
         {pastRides && pastRides.length > 0 && (
-          <details className="mt-4">
-            <summary className="cursor-pointer font-label text-xs uppercase text-muted-foreground hover:text-primary">
-              {t("archive", { count: pastRides.length })}
-            </summary>
-            <div className="mt-3 flex flex-col gap-3">
-              {pastRides.map((ride) => (
-                <Link
-                  key={ride.id}
-                  href={`/rides/${ride.id}`}
-                  className="flex items-center justify-between border-2 border-border bg-card p-4 text-muted-foreground transition-colors hover:border-primary"
-                >
-                  <span>{ride.title}</span>
-                  <span className="font-label text-xs uppercase">
-                    {rideDateFormatter.format(new Date(ride.starts_at))}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </details>
+          <Panel className="mt-6 p-2">
+            <details>
+              <summary className="cursor-pointer rounded-xl p-3 font-label text-xs uppercase text-muted-foreground hover:text-primary">
+                {t("archive", { count: pastRides.length })}
+              </summary>
+              <div className="flex flex-col">
+                {pastRides.map((ride) => (
+                  <Link
+                    key={ride.id}
+                    href={`/rides/${ride.id}`}
+                    className="glass-row glass-row-link justify-between text-muted-foreground"
+                  >
+                    <span>{ride.title}</span>
+                    <span className="font-label text-xs uppercase">
+                      {rideDateFormatter.format(new Date(ride.starts_at))}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </details>
+          </Panel>
         )}
       </div>
 
@@ -168,14 +166,11 @@ export default async function GroupPage({
         <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
           {t("members", { count: members?.length ?? 0 })}
         </p>
-        <div className="flex flex-col gap-3">
+        <Panel className="flex flex-col p-2">
           {members?.map((m) =>
             m.profiles ? (
-              <div
-                key={m.profiles.id}
-                className="flex items-center gap-3 border-2 border-border bg-card p-3"
-              >
-                <div className="size-9 shrink-0 overflow-hidden bg-primary">
+              <div key={m.profiles.id} className="glass-row">
+                <div className="size-9 shrink-0 overflow-hidden rounded-full bg-primary">
                   {m.profiles.avatar_url && (
                     <img
                       src={m.profiles.avatar_url}
@@ -187,9 +182,7 @@ export default async function GroupPage({
                 </div>
                 <span className="text-foreground">{m.profiles.full_name}</span>
                 {m.role === "owner" ? (
-                  <span className="ml-auto border border-primary/40 bg-primary/15 px-2.5 py-0.5 font-label text-xs uppercase text-primary">
-                    {t("owner")}
-                  </span>
+                  <span className="glass-badge ml-auto">{t("owner")}</span>
                 ) : (
                   isOwner && (
                     <RemoveMemberButton
@@ -202,7 +195,7 @@ export default async function GroupPage({
               </div>
             ) : null
           )}
-        </div>
+        </Panel>
       </div>
     </div>
   );

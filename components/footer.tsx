@@ -4,7 +4,7 @@ export const Footer = async () => {
   const t = await getTranslations("Footer");
 
   return (
-    <footer className="border-t-2 bg-background">
+    <footer>
       <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
         <p className="font-label text-xs uppercase text-muted-foreground">
           {t("rights", { year: new Date().getFullYear() })}

@@ -8,7 +8,7 @@ export async function SignOutButton() {
     <form action={signOut} className="w-full">
       <button
         type="submit"
-        className="w-full cursor-pointer px-3 py-2 text-left font-label text-xs uppercase text-destructive transition-colors hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive"
+        className="w-full cursor-pointer rounded-xl px-3 py-2 text-left font-label text-xs uppercase text-destructive transition-colors hover:bg-destructive/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive"
       >
         {t("signOut")}
       </button>

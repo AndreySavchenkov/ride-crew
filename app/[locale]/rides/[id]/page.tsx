@@ -10,6 +10,7 @@ import { RideCommentForm } from "@/components/ride-comment-form";
 import { DeleteCommentButton } from "@/components/delete-comment-button";
 import { getViewerTimezone } from "@/utils/get-viewer-timezone";
 import { toIntlLocale } from "@/utils/intl-locale";
+import { Panel, type Tint } from "@/components/plasma";
 
 type RsvpRow = {
   status: "going" | "maybe" | "not_going";
@@ -103,46 +104,47 @@ export default async function RidePage({
         </Link>
       )}
 
-      <div className="mt-4 flex items-start justify-between gap-4">
+      <div className="mt-4 flex items-start justify-between gap-6">
         <h1 className="text-2xl text-foreground">{ride.title}</h1>
         {ride.created_by === user.id && (
           <RideOwnerActions rideId={ride.id} groupId={ride.group_id} />
         )}
       </div>
-      <p className="mt-1 text-muted-foreground">
-        {dateFormatter.format(new Date(ride.starts_at))}
-        {ride.location && ` · ${ride.location}`}
-      </p>
 
-      {ride.description && (
-        <p className="mt-4 text-foreground">{ride.description}</p>
-      )}
+      <Panel className="mt-6 flex flex-col gap-4 p-5">
+        <p className="text-muted-foreground">
+          {dateFormatter.format(new Date(ride.starts_at))}
+          {ride.location && ` · ${ride.location}`}
+        </p>
 
-      {(ride.distance_km || ride.elevation_gain_m) && (
-        <div className="mt-4 flex gap-4 font-label text-xs uppercase text-muted-foreground">
-          {ride.distance_km && <span>{t("distanceKm", { value: ride.distance_km })}</span>}
-          {ride.elevation_gain_m && (
-            <span>{t("elevationM", { value: ride.elevation_gain_m })}</span>
-          )}
-        </div>
-      )}
+        {ride.description && (
+          <p className="text-foreground">{ride.description}</p>
+        )}
 
-      {ride.route_points && (
-        <div className="mt-6">
+        {(ride.distance_km || ride.elevation_gain_m) && (
+          <div className="flex gap-4 font-label text-xs uppercase text-muted-foreground">
+            {ride.distance_km && <span>{t("distanceKm", { value: ride.distance_km })}</span>}
+            {ride.elevation_gain_m && (
+              <span>{t("elevationM", { value: ride.elevation_gain_m })}</span>
+            )}
+          </div>
+        )}
+
+        {ride.route_points && (
           <RouteMap points={ride.route_points as [number, number][]} />
-        </div>
-      )}
+        )}
 
-      {ride.route_url && (
-        <a
-          href={ride.route_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-block border-2 border-border bg-card px-4 py-2 font-label text-xs uppercase text-foreground transition-colors hover:border-primary"
-        >
-          {t("openRoute")}
-        </a>
-      )}
+        {ride.route_url && (
+          <a
+            href={ride.route_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="glass-button self-start"
+          >
+            {t("openRoute")}
+          </a>
+        )}
+      </Panel>
 
       <div className="mt-8">
         <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
@@ -151,23 +153,20 @@ export default async function RidePage({
         <RideRsvpButtons rideId={ride.id} currentStatus={myRsvp?.status ?? null} />
       </div>
 
-      <RsvpRoster title={t("going")} attendees={grouped.going} accentClassName="border-l-emerald-500" nobodyYet={t("nobodyYet")} />
-      <RsvpRoster title={t("maybe")} attendees={grouped.maybe} accentClassName="border-l-amber-500" nobodyYet={t("nobodyYet")} />
-      <RsvpRoster title={t("notGoing")} attendees={grouped.not_going} accentClassName="border-l-red-500" nobodyYet={t("nobodyYet")} />
+      <RsvpRoster title={t("going")} attendees={grouped.going} tint="going" nobodyYet={t("nobodyYet")} />
+      <RsvpRoster title={t("maybe")} attendees={grouped.maybe} tint="maybe" nobodyYet={t("nobodyYet")} />
+      <RsvpRoster title={t("notGoing")} attendees={grouped.not_going} tint="notGoing" nobodyYet={t("nobodyYet")} />
 
       <div className="mt-8">
         <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
           {tc("title", { count: comments?.length ?? 0 })}
         </p>
 
-        <div className="mb-4 flex flex-col gap-3">
+        <Panel className="flex flex-col gap-3 p-3">
           {comments?.map((c) =>
             c.profiles ? (
-              <div
-                key={c.id}
-                className="flex items-start gap-3 border-2 border-border bg-card p-3"
-              >
-                <div className="size-9 shrink-0 overflow-hidden bg-primary">
+              <div key={c.id} className="glass-row items-start">
+                <div className="size-9 shrink-0 overflow-hidden rounded-full bg-primary">
                   {c.profiles.avatar_url && (
                     <img
                       src={c.profiles.avatar_url}
@@ -195,11 +194,13 @@ export default async function RidePage({
             ) : null
           )}
           {!comments?.length && (
-            <p className="text-sm text-muted-foreground">{tc("empty")}</p>
+            <p className="px-3 pt-2 text-sm text-muted-foreground">{tc("empty")}</p>
           )}
-        </div>
 
-        <RideCommentForm rideId={ride.id} />
+          <div className="p-1">
+            <RideCommentForm rideId={ride.id} />
+          </div>
+        </Panel>
       </div>
     </div>
   );
@@ -208,12 +209,12 @@ export default async function RidePage({
 function RsvpRoster({
   title,
   attendees,
-  accentClassName,
+  tint,
   nobodyYet,
 }: {
   title: string;
   attendees: RsvpRow[];
-  accentClassName: string;
+  tint: Tint;
   nobodyYet: string;
 }) {
   return (
@@ -221,31 +222,29 @@ function RsvpRoster({
       <p className="mb-4 font-label text-xs uppercase text-muted-foreground">
         {title} ({attendees.length})
       </p>
-      <div className="flex flex-col gap-3">
-        {attendees.map((r) =>
-          r.profiles ? (
-            <div
-              key={r.profiles.id}
-              className={`flex items-center gap-3 border-2 border-l-4 border-border bg-card p-3 ${accentClassName}`}
-            >
-              <div className="size-9 shrink-0 overflow-hidden bg-primary">
-                {r.profiles.avatar_url && (
-                  <img
-                    src={r.profiles.avatar_url}
-                    alt={r.profiles.full_name}
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover"
-                  />
-                )}
+      {attendees.length === 0 ? (
+        <p className="text-sm text-muted-foreground">{nobodyYet}</p>
+      ) : (
+        <Panel tint={tint} className="flex flex-col p-2">
+          {attendees.map((r) =>
+            r.profiles ? (
+              <div key={r.profiles.id} className="glass-row">
+                <div className="size-9 shrink-0 overflow-hidden rounded-full bg-primary">
+                  {r.profiles.avatar_url && (
+                    <img
+                      src={r.profiles.avatar_url}
+                      alt={r.profiles.full_name}
+                      referrerPolicy="no-referrer"
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                </div>
+                <span className="text-foreground">{r.profiles.full_name}</span>
               </div>
-              <span className="text-foreground">{r.profiles.full_name}</span>
-            </div>
-          ) : null
-        )}
-        {attendees.length === 0 && (
-          <p className="text-sm text-muted-foreground">{nobodyYet}</p>
-        )}
-      </div>
+            ) : null
+          )}
+        </Panel>
+      )}
     </div>
   );
 }

@@ -11,6 +11,9 @@ importers:
       '@base-ui/react':
         specifier: ^1.7.0
         version: 1.7.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@cruxgarden/plasma-ui':
+        specifier: ^0.7.0
+        version: 0.7.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@supabase/ssr':
         specifier: ^0.12.4
         version: 0.12.4(@supabase/supabase-js@2.112.3)
@@ -250,6 +253,13 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  '@cruxgarden/plasma-ui@0.7.0':
+    resolution: {integrity: sha512-POHUe0tfkP/knJQDzYTGVAOZNd1AQz3eURedkEK5QG4iNI4dqR6Pfkfgo5ovwsYDZ5uo6heJp8roKcNm+RQOow==}
+    engines: {node: '>=22.0.0'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
 
   '@dotenvx/dotenvx@1.75.1':
     resolution: {integrity: sha512-/BITOC9dmS/edY2zQwZNicQ059O6RKabtQfyEafV0nGtfYRNHYy1DIPiYVcov40+tob9hfmBnbR963dS+EQ1DQ==}
@@ -3657,6 +3667,11 @@ snapshots:
       use-sync-external-store: 1.6.0(react@19.2.8)
     optionalDependencies:
       '@types/react': 19.2.18
+
+  '@cruxgarden/plasma-ui@0.7.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
 
   '@dotenvx/dotenvx@1.75.1':
     dependencies:

@@ -3,37 +3,15 @@
 import { useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { setRsvp } from "@/app/rides/actions";
-import { cn } from "@/lib/utils";
+import { LiquidButton, type Tint } from "@/components/plasma";
 
 type Status = "going" | "maybe" | "not_going";
 
-const OPTIONS: {
-  status: Status;
-  activeClassName: string;
-  hoverClassName: string;
-}[] = [
-  {
-    status: "going",
-    activeClassName: "border-emerald-500 bg-emerald-500 text-white",
-    hoverClassName: "hover:border-emerald-500",
-  },
-  {
-    status: "maybe",
-    activeClassName: "border-amber-500 bg-amber-500 text-white",
-    hoverClassName: "hover:border-amber-500",
-  },
-  {
-    status: "not_going",
-    activeClassName: "border-red-500 bg-red-500 text-white",
-    hoverClassName: "hover:border-red-500",
-  },
+const OPTIONS: { status: Status; tint: Tint; labelKey: "going" | "maybe" | "notGoing" }[] = [
+  { status: "going", tint: "going", labelKey: "going" },
+  { status: "maybe", tint: "maybe", labelKey: "maybe" },
+  { status: "not_going", tint: "notGoing", labelKey: "notGoing" },
 ];
-
-const LABEL_KEY: Record<Status, "going" | "maybe" | "notGoing"> = {
-  going: "going",
-  maybe: "maybe",
-  not_going: "notGoing",
-};
 
 export function RideRsvpButtons({
   rideId,
@@ -46,23 +24,23 @@ export function RideRsvpButtons({
   const [isPending, startTransition] = useTransition();
 
   return (
-    <div className="flex flex-wrap gap-2">
-      {OPTIONS.map(({ status, activeClassName, hoverClassName }) => {
+    // gap-6 — больше blend-дистанции, чтобы кнопки не слипались.
+    <div className="flex flex-wrap gap-6">
+      {OPTIONS.map(({ status, tint, labelKey }) => {
         const active = currentStatus === status;
         return (
-          <button
+          <LiquidButton
             key={status}
+            tint={tint}
+            // Выбранный ответ — насыщенный цвет, остальные — лёгкий оттенок.
+            strength={active ? 0.75 : 0.12}
+            size="sm"
+            aria-pressed={active}
             disabled={isPending}
             onClick={() => startTransition(() => setRsvp(rideId, status))}
-            className={cn(
-              "cursor-pointer border-2 px-4 py-2 font-label text-xs uppercase transition-colors disabled:cursor-not-allowed disabled:opacity-50",
-              active
-                ? activeClassName
-                : cn("border-border bg-card text-foreground", hoverClassName)
-            )}
           >
-            {t(LABEL_KEY[status])}
-          </button>
+            {t(labelKey)}
+          </LiquidButton>
         );
       })}
     </div>

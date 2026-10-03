@@ -117,7 +117,7 @@ export function RouteMap({ points, className }: RouteMapProps) {
     <div
       data-slot="route-map"
       className={cn(
-        "h-56 w-full overflow-hidden border-2 border-border grayscale-[40%] contrast-[1.05]",
+        "h-56 w-full overflow-hidden rounded-xl border border-white/10 grayscale-[40%] contrast-[1.05]",
         className
       )}
     >

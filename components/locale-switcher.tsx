@@ -32,7 +32,7 @@ export function LocaleSwitcher() {
           key={code}
           onClick={() => switchTo(code)}
           disabled={code === locale || isPending}
-          className={`cursor-pointer px-1.5 py-1 font-label text-xs uppercase text-muted-foreground transition-colors hover:text-foreground disabled:cursor-default ${code === locale ? "disabled:text-foreground" : "disabled:opacity-50"}`}
+          className={`cursor-pointer rounded-full px-2 py-1 font-label text-xs uppercase text-muted-foreground transition-colors hover:text-foreground disabled:cursor-default ${code === locale ? "disabled:bg-white/10 disabled:text-foreground" : "disabled:opacity-50"}`}
         >
           {isPending && code === target ? (
             <span className="inline-block size-3 animate-spin rounded-full border-2 border-current border-t-transparent align-middle" />

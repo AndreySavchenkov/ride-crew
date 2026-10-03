@@ -3,6 +3,7 @@ import { getUser } from "@/utils/supabase/getUser";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
+import { LiquidLink, Panel } from "@/components/plasma";
 
 type GroupRow = { id: string; name: string; description: string | null };
 
@@ -61,28 +62,22 @@ export default async function GroupsPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
-      <div className="mb-8 flex items-center justify-between gap-3">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-6">
         <h1 className="text-2xl text-foreground">{t("title")}</h1>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/groups/join"
-            className="border-2 border-border bg-card px-5 py-2.5 font-label text-sm uppercase text-foreground transition-colors hover:border-primary"
-          >
+        <div className="flex items-center gap-6">
+          <LiquidLink href="/groups/join" tint="neutral" size="sm">
             {t("joinByCode")}
-          </Link>
-          <Link
-            href="/groups/new"
-            className="border-2 border-primary bg-primary px-5 py-2.5 font-label text-sm uppercase text-primary-foreground transition-colors hover:bg-background hover:text-primary"
-          >
+          </LiquidLink>
+          <LiquidLink href="/groups/new" size="sm">
             {t("createGroup")}
-          </Link>
+          </LiquidLink>
         </div>
       </div>
 
       {!groups?.length ? (
         <p className="text-muted-foreground">{t("empty")}</p>
       ) : (
-        <div className="flex flex-col gap-3">
+        <Panel className="flex flex-col p-2">
           {groups.map((group) => {
             const newRidesCount = newRidesCountByGroup.get(group.id) ?? 0;
             const memberCount = memberCountByGroup.get(group.id) ?? 0;
@@ -90,14 +85,14 @@ export default async function GroupsPage() {
               <Link
                 key={group.id}
                 href={`/groups/${group.id}`}
-                className="flex items-center gap-4 border-2 border-border bg-card p-4 transition-colors hover:border-primary"
+                className="glass-row glass-row-link gap-4"
               >
-                <div className="size-11 shrink-0 bg-primary" />
+                <div className="size-11 shrink-0 rounded-xl bg-primary/70" />
                 <div className="flex-1">
                   <p className="flex items-center gap-2 text-foreground">
                     {group.name}
                     {newRidesCount > 0 && (
-                      <span className="border border-primary/40 bg-primary/15 px-2 py-0.5 font-label text-[0.65rem] uppercase text-primary">
+                      <span className="glass-badge">
                         {t("newRides", { count: newRidesCount })}
                       </span>
                     )}
@@ -114,7 +109,7 @@ export default async function GroupsPage() {
               </Link>
             );
           })}
-        </div>
+        </Panel>
       )}
     </div>
   );

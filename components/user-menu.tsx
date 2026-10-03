@@ -21,14 +21,14 @@ export function UserMenu({
 }) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex cursor-pointer items-center gap-2.5 border-2 border-border bg-card py-1.5 pr-3.5 pl-1.5 transition-colors hover:border-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
-        <Avatar className="size-7 rounded-none border border-border">
+      <DropdownMenuTrigger className="glass-button py-1 pr-3.5 pl-1 normal-case focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+        <Avatar className="size-7">
           <AvatarImage src={avatarUrl} alt={name} referrerPolicy="no-referrer" />
-          <AvatarFallback className="rounded-none bg-primary font-label text-xs text-primary-foreground">
+          <AvatarFallback className="bg-primary font-label text-xs text-primary-foreground">
             {fallbackName}
           </AvatarFallback>
         </Avatar>
-        <span className="font-label text-xs uppercase text-foreground">{name}</span>
+        <span className="hidden font-label text-xs uppercase text-foreground sm:inline">{name}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">{children}</DropdownMenuContent>
     </DropdownMenu>

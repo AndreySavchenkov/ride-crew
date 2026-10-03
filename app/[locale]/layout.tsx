@@ -8,6 +8,7 @@ import { fontBody, fontDisplay, fontLabel } from "./fonts";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { TimezoneSync } from "@/components/timezone-sync";
+import { PlasmaRoot } from "@/components/plasma";
 import { routing } from "@/i18n/routing";
 
 export const viewport: Viewport = {
@@ -51,9 +52,11 @@ export default async function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <PlasmaRoot>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </PlasmaRoot>
           <Analytics />
           <SpeedInsights />
           <TimezoneSync />

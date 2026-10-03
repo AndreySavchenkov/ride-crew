@@ -26,7 +26,7 @@ export function CopyInviteCode({ code }: { code: string }) {
     <div className="flex flex-wrap items-center gap-2">
       <button
         onClick={handleCopyCode}
-        className="flex cursor-pointer items-center gap-2 border-2 border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:border-primary"
+        className="glass-button text-sm normal-case"
       >
         {code}
         <span className="font-label text-xs uppercase text-muted-foreground">
@@ -35,7 +35,7 @@ export function CopyInviteCode({ code }: { code: string }) {
       </button>
       <button
         onClick={handleCopyLink}
-        className="cursor-pointer border-2 border-border bg-card px-4 py-2 font-label text-xs uppercase text-foreground transition-colors hover:border-primary"
+        className="glass-button"
       >
         {copiedLink ? t("copied") : t("copyLink")}
       </button>

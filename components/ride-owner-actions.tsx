@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { LiquidButton, LiquidLink } from "@/components/plasma";
 import { cancelRide } from "@/app/rides/actions";
 
 export function RideOwnerActions({
@@ -23,20 +23,20 @@ export function RideOwnerActions({
   };
 
   return (
-    <div className="flex items-center gap-3">
-      <Link
-        href={`/rides/${rideId}/edit`}
-        className="border-2 border-border bg-card px-4 py-2 font-label text-xs uppercase text-foreground transition-colors hover:border-primary"
-      >
+    // gap-6 — больше blend-дистанции, иначе две кнопки сольются в одну каплю.
+    <div className="flex shrink-0 items-center gap-6">
+      <LiquidLink tint="neutral" size="sm" href={`/rides/${rideId}/edit`}>
         {t("edit")}
-      </Link>
-      <button
+      </LiquidLink>
+      <LiquidButton
+        tint="destructive"
+        strength={0.35}
+        size="sm"
         onClick={handleCancel}
         disabled={isPending}
-        className="cursor-pointer border-2 border-destructive/40 px-4 py-2 font-label text-xs uppercase text-destructive transition-colors hover:border-destructive hover:bg-destructive/10 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isPending ? t("cancelling") : t("cancel")}
-      </button>
+      </LiquidButton>
     </div>
   );
 }
